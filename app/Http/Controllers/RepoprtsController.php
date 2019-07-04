@@ -50,25 +50,29 @@ class RepoprtsController extends Controller
     	$borrowers = Borrower::where('unit_id',$unit_id)
     	->join('loans','loans.borrower_id','borrowers.id')
     	->where('loans.lender_id',$request->lender)
+    	->select('loans.*','borrowers.fname','borrowers.lname')
     	->get();
+
     	//get unit
     	$unit = Unit::find($unit_id);
-    	// dd($unit->name);
+        $lender = Lender::find($request->lender);
+
+    
+
+    	
+
+    	//dd($unit->name);
     	// echo "<pre>";
     	// print_r($borrowers);
     	// exit();
-
+    	//dd($borrowers['unit']);
+    	//$borrowers['unit']=$unit->name;
  
     	return view('reports.borrower_reports')->with('borrowers',$borrowers)
-    	                                       ->with('unit',$unit);
+    	                                        ->with('unit_name',$unit->name)
+    	                                        ->with('lender_name',$lender->name);
 
     }
 
-    public function get_borrowers_payments($borrower_id,$loan_id,$lender_id){
-    	$payments = Payment::selectRaw(sum('payment_amount'))
-    	                     ->where('borrower_id',$borrower_id)
-    	                     ->where('loan_id',$loan_id)
-    	                     ->where('lender_id',$lender_id);
 
-    }
 }

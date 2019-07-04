@@ -150,4 +150,9 @@ class PaymentsController extends Controller
     {
         //
     }
+
+    // public function get_borrowers_payments($borrower->borrower_id,$borrower->loan_id,$borrower->lender_id)
+    // {
+
+    // }
 }

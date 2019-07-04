@@ -70,20 +70,28 @@
                   <th>Borrower Name</th>
                   <th>Unit</th>
                   <th>Lender</th>
+                  <th>Loan Amount</th>
                   <th>Due Amount</th>
                 </tr>
                 @if(isset($borrowers) && count($borrowers) > 0)
-
+                  <?php
+                  $unit_name = $unit_name;
+                  $lender_name = $lender_name
+                  ?>
                 @foreach($borrowers as $borrower)
                 <?php
-                $payments = \App\Http\Controllers\RepoprtsController::get_borrowers_payments($borrower_id,$loan_id,$lender_id)
+                $total_payment = get_borrowers_payments($borrower->borrower_id,$borrower->id,$borrower->lender_id);
+                //dd($borrower->id);
+              //dd($total_payment);
+              
                 ?>
                 <tr>
                   <td>1.</td>
-                  <td>{{$borrower->fname}}</td>
-                  <td>Ruvu</td>
-                  <td>CRDB</td>
-                  <td>500000</td>
+                  <td>{{$borrower->fname.' '.$borrower->lname}}</td>
+                  <td>{{$unit_name}}</td>
+                  <td>{{$lender_name}}</td>
+                  <td>{{$borrower->loan_amount}}</td>
+                  <td>{{$borrower->loan_amount - $total_payment}}</td>
                 </tr>
                 @endforeach
                 @else
