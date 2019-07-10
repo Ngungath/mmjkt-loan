@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Borrower;
 use Session;
 use App\Loan;
+use Carbon\Carbon;
 use App\Payment;
 
 class BorrowersController extends Controller
@@ -18,7 +19,10 @@ class BorrowersController extends Controller
     public function index()
     {
         //return view('borrowers.index');
-       return view('borrowers.index')->with('borrowers',Borrower::paginate(3));
+        $borrowers = Borrower::paginate(10);
+        //dd($borrowers);
+       return view('borrowers.index')->with('borrowers',$borrowers);
+
     }
 
     /**
@@ -47,25 +51,14 @@ class BorrowersController extends Controller
 
         $borrower_photo_new = time().$borrower_photo->getClientOriginalName();
 
-       // dd($borrower_photo_new);
-
         $borrower_photo->move('uploads/borrowers_photos',$borrower_photo_new);
 
         $borrower_photo_new = 'uploads/borrowers_photos/'.$borrower_photo_new;
      }
-
-     $originalDob = $request->dob;
-     $newDob = strtotime($originalDob);
-     $newDob = date('Y-m-d');
-
-     $originalRod = $request->rod;
-     $newRod = strtotime($originalRod);
-     $newRod = date('Y-m-d');
-     //dd($newDate);
-   
-     $originalDoe = $request->doe;
-     $newDoe = strtotime($originalDoe);
-     $newDoe = date('Y-m-d');
+     $newDob =date('Y-m-d',strtotime($request->dob));
+     $newDoe =date('Y-m-d',strtotime($request->doe)) ;
+     $newRod =date('Y-m-d',strtotime($request->rod)) ;
+    // dd($newRod);
 
     $borrower->loan_number = $request->loan_number;
     $borrower->fname = $request->fname;
@@ -85,8 +78,7 @@ class BorrowersController extends Controller
     $borrower->bank_branch = $request->bank_branch;
     $borrower->loan_type = $request->loan_type;
     $borrower->applicant_photo = $borrower_photo_new;
-    $borrower->barack_name = $request->barack_name;
-    $borrower->barack_number = $request->barack_number;
+    $borrower->unit_id = $request->unit_id;
     $borrower->doe = $newDoe;
     $borrower->rod = $newRod;
     $borrower->rank = $request->rank;
@@ -151,6 +143,31 @@ class BorrowersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $borrower = Borrower::find($id);
+        $borrower->delete();
+        Session::flash('success','Borrower successfuly suspended');
+        return redirect()->back();
+
+    }
+
+    public function suspended_borrowers()
+    {
+        $borrower = Borrower::onlyTrashed()->get();
+        return view('borrowers.suspended')->with('borrowers',$borrower);
+    }
+    public function restore($id){
+     $borrower = Borrower::withTrashed()->where('id',$id)->restore();
+     Session::flash('success','Borrower successfully restored');
+     return redirect()->route('borrower.index');
+    }
+
+    public function delete($id){
+        
+        $borrower = Borrower::withTrashed()->where('id',$id);
+       // dd($borrower);
+        $borrower->forceDelete();
+        Session::flash('success', 'Borrower successfully deleted');
+        return redirect()->route('borrower.index');
+
     }
 }

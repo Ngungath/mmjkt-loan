@@ -166,22 +166,21 @@
                  <!-- /.tab-pane -->
               <div class="row">
                 <div class="col col-md-12">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                    <div class="form-group">
                        <label>Barack Name <span class="required2"> *</span></label>
-                       <input type="text" name="barack_name" id="barack_name" class="form-control">
+                       <?php $units = App\Unit::all() ?>
+                          <select class="form-control" name="unit_id" id="barack_name">
+                        @foreach($units as $unit)
+                         <option value="{{$unit->id}}">{{$unit->name}}</option>
+                      @endforeach
+                    </select>
                        <span class="text-danger" id="barack_name_error"></span>
                 <!-- /.input group -->
               </div>
                   </div>
-                   <div class="col-md-4">
-                  <div class="form-group">
-                    <label class="control-label">Barack Number <span class="required2"> *</span></label>
-                    <input type="text" name="barack_number" id="barack_number" class="form-control">
-                    <span class="text-danger" id="barack_number_error"></span>
-                    </div>
-                   </div>
-                    <div class="col-md-4">
+                
+                    <div class="col-md-6">
                        <div class="form-group">
                     <label class="control-label">Location</label>
                     <input type="text" name="barack_location" class="form-control">

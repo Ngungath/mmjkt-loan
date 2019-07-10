@@ -16,7 +16,7 @@ class UnitsController extends Controller
     public function index()
     { 
 
-       return view('units.index')->with('units',Unit::paginate(3));
+       return view('units.index')->with('units',Unit::paginate(10));
     }
 
     /**

@@ -34,6 +34,14 @@
 </a></li>
             <li><a href="index2.html"><i class="fa fa-circle-o"></i>Add Borrower Group
 </a></li>
+<li>
+  <a href="{{route('suspended.borrowers')}}"><i
+ class="fa fa-circle-o"></i> Suspended Borrowers
+     <span class="pull-right-container">
+      <span class="label label-danger pull-right">0</span>
+     </span>
+ </a>
+</li>
           </ul>
         </li>
       <li class="treeview">
@@ -65,12 +73,15 @@
                     </span>
                 </a>
               </li>
-          <li><a href="http://ulm.webstudio.co.zw/loan/loan_calculator/create"><i
+            
+          <li><a href="#"><i
                   class="fa fa-circle-o"></i> Loan Calculator</a></li>
           <li><a href="{{route('lender')}}"><i
                   class="fa fa-bank"></i>Manage Lender</a></li>
           <li><a href="#"><i
                   class="fa fa-book"></i>Repayment Methods</a></li>
+          <li><a href="{{route('loans.banch_payments')}}"><i
+                  class="fa fa-book"></i>Banch Repayment</a></li>
           </ul>
         </li>
         <li class="treeview ">

@@ -46,8 +46,8 @@ Route::post('/postCreate',[
 Route::get('/', function () {
     return view('auth.login');
 });
-
 Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
@@ -91,6 +91,24 @@ Route::get('borrower/show/{id}',[
 
 ]);
 
+Route::get('/borrower/suspended',[
+	'uses'=>'BorrowersController@suspended_borrowers',
+	'as'=>'suspended.borrowers'
+	]);
+Route::get('borrowers/destroy/{id}', [
+	'uses'=>'BorrowersController@destroy',
+	'as'=>'borrowers.destroy'
+]);
+Route::get('borrower/restore/{id}',[
+'uses'=>'BorrowersController@restore',
+'as'=>'borrowers.restore'
+]);
+
+Route::get('borrower/delete/{id}',[
+'uses'=>'BorrowersController@delete',
+'as'=>'borrower.delete'
+
+]);
 });
 
 //Units Controller
@@ -144,12 +162,15 @@ Route::get('/roles/destroy/{id}',[
 ]);
 
 //Loans Routes
-Route::get('/loan/create/{id}',[
+Route::get('/loans/create/{id}',[
+'uses'=>'LoansController@create',
+'as'=>'loans.create'
+]);
+Route::get('/loans/create/',[
 'uses'=>'LoansController@create',
 'as'=>'loan.create'
 ]);
-
-Route::post('/loan/store',[
+Route::post('/loans/store',[
 'uses'=>'LoansController@store',
 'as'=>'loan.store',
 ]);
@@ -167,15 +188,25 @@ Route::get('/loans/pending',[
 'as'=>'pending.loans'
 ]);
 
-Route::get('/loan/view_aprove/{id}',[
+Route::get('/loans/view_aprove/{id}',[
 'uses'=>'LoansController@view_approve',
 'as'=>'loan.wiew_approve'
 ]);
 
-Route::post('/loan/approve/',[
+Route::post('/loans/approve/',[
 'uses'=>'LoansController@loan_approve',
 'as'=>'loan.approve'
 ]);
+Route::get('/loans/suspended',[
+	'uses'=>'LoansController@suspended_loans',
+	'as'=>'suspended.loans'
+	]);
+
+Route::get('/loans/banch_payments',[
+'uses'=>'LoansController@banch_payments',
+'as'=>'loans.banch_payments'
+]);
+
 //Repayments Routes
 Route::get('/payment/create/{id}',[
  'uses'=>'PaymentsController@create',

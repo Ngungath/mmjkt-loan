@@ -51,17 +51,17 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Barack Name</strong>
+              <strong><i class="fa fa-book margin-r-5"></i> Unit Name</strong>
 
               <p class="text-muted">
-                {{$borrower->barack_name}}
+                {{$borrower->unit->name}}
               </p>
 
                <hr>
 
-              <strong><i class="fa fa-file-text margin-r-5"></i> Barack Number</strong>
+              <strong><i class="fa fa-file-text margin-r-5"></i> Unit Number</strong>
 
-              <p class="text-muted">{{$borrower->barack_number}}</p>
+              <p class="text-muted">{{$borrower->unit->number}}</p>
 
               <hr>
 
@@ -115,7 +115,8 @@
              <div class="box">
             <div class="box-header" style="padding-bottom: 5px;">
               <h3 class="box-title">Borrower Payments</h3>
-               <a href="{{route('loan.create',['id'=>$borrower->id])}}" class="btn btn-primary pull-right"><b>Add Loan</b></a>
+               <a href="{{route('loans.create',['id'=>$borrower->id])}}" class="btn btn-primary pull-right"><b>Add Loan</b></a>
+
             </div>
             <hr>
             <!-- /.box-header -->
@@ -142,7 +143,7 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$loan->loan_amount}}</td>
-                  <td>{{($loan->loan_amount - $total_payment )}}</td>
+                  <td>{{(($loan->loan_amount +($loan->loan_amount *($loan->lender->interest/100)) - $total_payment ))}}</td>
                   <td><a href="#">{{$total_payment}}</a></td>
                    <td>{{$loan->lender->name}}</td>
                   @if($loan->loan_status == "Approved")
@@ -185,7 +186,8 @@
            <div class="box">
             <div class="box-header" style="padding-bottom: 10px;">
               <h3 class="box-title">Borrower Payments</h3>
-              <a href="{{route('payment.create',['id'=>$borrower->id])}}"><button class="btn btn-primary pull-right">Add Payment</button></a>
+              <a class="btn btn-primary pull-right" href="{{route('payment.create',['id'=>$borrower->id])}}">Add Payment</a>
+
             </div>
             <hr>
             <!-- /.box-header -->

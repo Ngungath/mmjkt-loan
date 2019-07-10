@@ -80,7 +80,7 @@ class PaymentsController extends Controller
 
         //$loan_payment['payment_date'] = $new_pay_date ;
         $lender = explode('-', $request->loan_number); 
-
+        $date = explode('-', $new_pay_date);
 
         $lender_id =Lender::where('name',$lender[1])->first();
         //dd($lender_id->id);
@@ -89,7 +89,8 @@ class PaymentsController extends Controller
         $payment->lender_id = $lender_id->id;
         $payment->loan_number = $request->loan_number;
         $payment->loan_id = $loan->id;
-        $payment->payment_date = $new_pay_date;
+        $loan->payment_year =  $date[0];
+        $loan->payment_month =  $date[2];
         $payment->payement_amount = $request->payment_amount;
         $payment->save();
         // $payment = Payment::where('borrower_id',$request->borrower_id)

@@ -29,6 +29,7 @@
      <!-- Ionicons -->
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/tab.css')}}">
+    <link rel="stylesheet" href="{{asset('css/mpdf.css')}}">
     {{-- SweetAlert2 --}}
       <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
       <link href="{{ asset('sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
@@ -61,7 +62,7 @@
     @yield('css')
 </head>
 
-<body class="skin-blue sidebar-mini">
+<body class="skin-green sidebar-mini">
 @if (!Auth::guest())
     <div class="wrapper">
         <!-- Main Header -->
@@ -229,11 +230,13 @@
     })
     
      $('#doe').datepicker({
-      autoclose: true
+      autoclose: true,
+      //format: 'yyyy-mm-dd'
     })
     
      $('#rod').datepicker({
-      autoclose: true
+      autoclose: true,
+     // format: 'yyyy-mm-dd'
     })
       $('#application_date').datepicker({
       autoclose: true

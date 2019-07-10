@@ -66,33 +66,8 @@
         });
 
       $('#btn_employment_details').click(function(){
-      	var barack_name_val =$('#barack_name').val();
-      	var barack_name_error ="";
         var barack_number_error = "";
         var rank_error = "";
-
-        if ($.trim($('#barack_name').val()).length == 0) {
-            barack_name_error = "Barack Name is Required";
-            $('#barack_name_error').text(barack_name_error);
-            $('#barack_name').addClass('has-error');
-
-        }else{
-        	
-        	barack_name_error ="";
-        	$('#barack_name_error').text(barack_name_error);
-        	$('#barack_name').removeClass('has-error');
-        }
-
-        if ($.trim($('#barack_number').val()).length == 0) {
-        	barack_number_error = "Barack number is required";
-        	$('#barack_number_error').text(barack_number_error);
-        	$('#barack_number').addClass('has-error');
-
-        }else{
-        	barack_number_error = "";
-        	$('#barack_number_error').text(barack_number_error);
-        	$('#barack_number').removeClass('has-error');
-        }
 
         if ($.trim($('#rank').val()).length == 0) {
         	rank_error = "Rank is required";
@@ -105,7 +80,7 @@
 
         }
 
-        if (barack_name_error != '' || barack_number_error != '' || rank_error !='' ) {
+        if (rank_error !='' ) {
         	return false ;
         }else{
               
@@ -140,7 +115,13 @@
                     toastr.success(result.success);
 
                   }});
+
+       
                });
+
+
+     // function delete data
+
       function deleteData(){
 
         alert('ericky');
@@ -185,6 +166,22 @@
 
 
             
+          }).catch(swal.noop);
+
+ }
+
+ function delete_borrower(){
+   swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              cancelButtonColor: '#d33',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!'
+          }).then(function () {
+
+
           }).catch(swal.noop);
 
  }

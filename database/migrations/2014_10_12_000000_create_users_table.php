@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             
 
             //foregn key
-             $table->foreign('role_id')->references('id')->on('roles');
+            // $table->foreign('role_id')->references('id')->on('roles');
             // $table->foreign('role_id')->references('id')->on('roles');
             //$table->foreign('user_id')->references('id')->on('users');
         });

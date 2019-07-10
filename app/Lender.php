@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lender extends Model
 {
-    protected $filleble =['name'];
+    protected $filleble =['name','interest'];
 
     public function loan(){
 

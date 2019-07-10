@@ -12,7 +12,7 @@
     </section>
 
 <section class="content">
-	<div class="box">
+	<div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">JKT All Units</h3>
             </div>
@@ -46,7 +46,7 @@
               </tbody></table>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix text-center">
+            <div class="box-footer box-success clearfix text-center">
              {{$units->links()}}
             </div>
           </div>

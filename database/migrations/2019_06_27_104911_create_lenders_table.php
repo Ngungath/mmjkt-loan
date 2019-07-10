@@ -14,8 +14,9 @@ class CreateLendersTable extends Migration
     public function up()
     {
         Schema::create('lenders', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('name');
+            $table->integer('interest')->default(13);
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@
               <div class="row">
                 <form method="post" action="{{route('borrowers_report.find')}}">
                   {{csrf_field()}}
+                 <input type="hidden" name="raw" value="raw">
                 <div class="col col-md-12">
                   <div class="col-md-5">
                     <label class="Control-label">Units:</label>
@@ -55,7 +56,16 @@
           <div class="box box-success">
             <div class="box-header with-border">
               <span class="fa fa-book"></span><h3 class="box-title">Borrowers Information</h3>
-              <a class="btn btn-primary pull-right" href="{{route('borrowers_report.pdf')}}" target="blank">PDF Priview</a>
+              <form method="post" action="{{route('borrowers_report.find')}}">
+                  {{csrf_field()}}
+                 <input type="hidden" name="pdf" value="pdf">
+                 @if(isset($lender_id))
+                 <input type="hidden" name="lender" value="{{$lender_id}}">
+                 <input type="hidden" name="unit" value="{{$unit_id}}">
+                  @endif
+                 <button class="btn btn-primary pull-right" style="margin-top: -20px">PDF Priview</button>
+               </form>
+        
             </div>
             <div class="box-body">
               <div class="row">

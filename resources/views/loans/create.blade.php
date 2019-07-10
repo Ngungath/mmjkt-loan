@@ -22,7 +22,7 @@
             <form role="form" method="post" action="{{route('loan.store')}}">
               {{csrf_field()}}
               <input type="hidden" name="borrower_id" value="{{$borrower->id}}">
-              <input type="hidden" name="barack_number" value="{{$borrower->barack_number}}">
+              <input type="hidden" name="id_no" value="{{$borrower->id_no}}">
                   <div class="row">
                 <div class="col col-md-12">
                   <div class="col-md-4" style="display: none">
@@ -78,7 +78,7 @@
                    </div>
                     <div class="col-md-4">
                        <div class="form-group">
-                    <label class="control-label">Repayment Period (Number of Month) <span class="required2">*</span></label>
+                    <label class="control-label">Repayment Period (Number of Years) <span class="required2">*</span></label>
                    <input type="number" required="required" name="repayment_period" id="repayment_period" class="form-control">
                     <span class="text-danger" id="lname_type"></span>
                     </div>

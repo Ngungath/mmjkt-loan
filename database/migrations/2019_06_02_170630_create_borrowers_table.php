@@ -15,7 +15,6 @@ class CreateBorrowersTable extends Migration
     {
         Schema::create('borrowers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('loan_number')->nullable();
             $table->string('fname')->nullable();
             $table->string('mname')->nullable();
             $table->string('lname')->nullable();
@@ -33,16 +32,15 @@ class CreateBorrowersTable extends Migration
             $table->string('bank_branch')->nullable();
             $table->string('applicant_photo')->nullable();
             $table->string('loan_type')->nullable();
-            $table->string('monthly_basic_salary')->nullable();
-            $table->string('monthly_net_salary')->nullable();
-            $table->string('barack_name')->nullable();
-            $table->string('barack_number')->nullable();
+            $table->double('monthly_basic_salary',20,2)->nullable();
+            $table->double('monthly_net_salary',20,2)->nullable();
             $table->date('doe')->nullable();
             $table->date('rod')->nullable();
             $table->string('rank')->nullable();
 
             
             $table->enum('borrower_status',['Active','Inactive'])->default('Active');
+            $table->softDeletes();
             $table->timestamps();
 
             // foreign key

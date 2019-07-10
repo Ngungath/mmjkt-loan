@@ -10,4 +10,8 @@ class Unit extends Model
        'name','number'
 
     ];
+
+    public function borrowers(){
+    	return $this->hasMany('App\Borrower');
+    }
 }

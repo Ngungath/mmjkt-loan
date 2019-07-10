@@ -14,9 +14,9 @@
 
  <section class="content">
    <!-- Borrower Information -->
-              <div class="box box-primary">
+              <div class="box box-success">
         <div class="box-header with-border">
-          <h3 class="box-title"><b>Borrower Information</b> <span class="text-center">{{$borrower->fname.' '.$borrower->lname}}</span></h3>
+          <h3 class="box-title"><b>Borrower Information for</b> <span class="text-center">{{$borrower->fname.' '.$borrower->lname}}</span></h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
@@ -24,14 +24,19 @@
             
           </div>
         </div>
+        <?php 
+          $max_deduction = number_format(round((1/3*$borrower->monthly_net_salary)));
+          $monthly_repayment = round(get_monthly_repayment($loan->loan_amount, $lender->interest, $loan->repayment_period));
+
+        ?>
       <div class="box-body no-padding">
               <table class="table table-bordered">
                 <tbody>
                 <tr>
                 
-                  <td>Basic Salary</td>
-                   <td>{{$borrower->monthly_basic_salary}}</td>
-                   <td>Maximum Deduction Amount per Month : {{(1/3*$borrower->monthly_basic_salary)}}</td>
+                  <td>Net Salary</td>
+                   <td>{{$borrower->monthly_net_salary}}</td>
+                   <td>Maximum Deduction Amount per Month : {{$max_deduction}}</td>
                 </tr>
                 <tr>
                   
@@ -45,30 +50,68 @@
                   <td><span class="">{{$borrower->rod}}</span></td>
                    <td>Years remains untill retirement <span class="label label-danger">{{$diff_in_rod}}</span></td>
                 </tr>
+                <tr>
+                  <td></td>
+                  <td>Monthly Loan Repayment</td>
+                  <td>Tsh : {{$monthly_repayment}}</td>
+                </tr>
               </tbody></table>
               <hr>
-              @if($loan->loan_type == 'Top Up')
-              <div class="box-header with-border">
-          <h3 class="box-title"><b>Privious Loan Details</b></h3>
-              </div>
+            @if($loan->loan_type == 'Top Up' && isset($loans))
+            <?php $id = 1 ;
 
-              @endif
+            ?>
+              <div class="box-header with-border">
+              <h3 class="box-title"><b>Privious Loan Details</b></h3>
+              </div>
+              <div class="box-body no-padding">
+              <table class="table table-striped">
+                <tbody>
+                <tr>
+                  <td><b>SN</b></td>
+                  <td><b>Loan Amount</b></td>
+                   <td><b>Lender</b></td>
+                   <td><b>Due Amount</b></td>
+                </tr>
+                @foreach($loans as $loan)
+                <?php  
+                $lender_name = explode('-',$loan->loan_number);
+                $total_payment = get_borrowers_payments($loan->borrower_id,$loan->id,$loan->lender_id);
+                $due_payment = $loan->loan_amount - $total_payment;
+
+                ?>
+                <tr>
+                  <td>{{$id++}}</td>
+                  <td>{{$loan->loan_amount}}</td>
+                  <td>{{$lender_name[1]}}</td>
+                  <td>{{$due_payment}}</td>
+                </tr>
+               
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        @endif
             </div>
         <!-- /.box-body -->
       </div>
             <!-- End Borrower information -->
-<div class="box box-primary">
+<div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">Loan Information</h3>
             </div>
             <!-- /.box-header -->
            
-
+            
             <!-- form start -->
-            <form role="form" method="post" action="{{route('loan.approve')}}">
+            <form role="form" method="post" id="approve_form" action="{{route('loan.approve')}}">
               {{csrf_field()}}
-              <input type="hidden" name="borrower_id" value="{{$loan->borrower_id}}">
-               <input type="hidden" name="loan_id" value="{{$loan->id}}">
+              <input type="hidden" name="borrower_id" id="borrower_id" value="{{$loan->borrower_id}}">
+               <input type="hidden" name="loan_id" id="loan_id" value="{{$loan->id}}">
+               <input type="hidden" name="loan_monthly_payment" id="loan_monthly_payment" value="{{$monthly_repayment}}">
+               <input type="hidden"  name="max_deduction" id="max_deduction" value="{{$max_deduction}}">
+               <input type="hidden" name="diff_in_doe" id="diff_in_doe" value="{{$diff_in_doe}}">
+               <input type="hidden" name="diff_in_rod" id="diff_in_rod" value="{{$diff_in_rod}}">
                   <div class="row">
                 <div class="col col-md-12">
                   <div class="col-md-4">
@@ -87,10 +130,8 @@
                     <div class="col-md-4">
                        <div class="form-group">
                     <label class="control-label">Loan Type <span class="required2">*</span></label>
-                   <select id="loan_type" name="loan_type" class="form-control">
-                     <option selected value="{{$loan->loan_type}}">{{$loan->loan_type}}</option>
-                     <option value="Top Up">Top Up</option>
-                   </select>
+                    <input type="text" name="loan_type" value="{{$loan->loan_type}}" class="form-control" readonly="readonly">
+                 
                     <span class="text-danger" id="lname_type_error"></span>
                     </div>
                     </div>
@@ -103,23 +144,13 @@
                   <div class="col-md-4">
                     <div class="form-group">
                     <label class="control-label">Loan Application Date <span class="required2">*</span></label>
-                  <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                  <input type="text" class="form-control pull-right" name="application_date" id="application_date" value="{{$loan->application_date}}" readonly="readonly" placeholder="Loan Date">
-                </div>
-                    <span id="loan_number_error" class="text-danger"></span>
+                    <input type="tex" name="Application_date" value="{{$loan->application_year}}" class="form-control" readonly="readonly">
                     </div>
                   </div>
                    <div class="col-md-4">
                   <div class="form-group">
                     <label class="control-label">Lender</label>
-                    <select class="form-control" name="lender">
-                      <option value="NMB">NMB</option>
-                      <option value="CRDB">CRDB</option>
-                      <option value="PBZ">PBZ</option>
-                    </select>
+                    <input class="form-control" type="text" name="lender" value="{{$lender->name}}" readonly="readonly">
                     </div>
                    </div>
                     <div class="col-md-4">
@@ -153,9 +184,24 @@
                   </div>
                 </div>
               </div>
+              <hr>
+              <div class="row" id="approve_reason">
+                <div class="col col-md-12">
+                  <div class="col col-md-4 text-center">
+                    <label class="control-label" style="margin-top:50px">Approve Reason</label>
+                  </div>
+                  <div class="col col-md-6">
+                    <textarea class="form-control" rows="5" cols="50" name="approve_reason" id="approve_reason_input">
+                      
+                    </textarea>
+                    <span class="text-danger" id="error_reason"></span>
+                  </div>
+                  
+                </div>
+              </div>
               <br />
         <div align="center">
-             <button type="submit" name="loan" id="loan" class="btn btn-success btn-lg">Approve Loan</button>
+             <button type="button" name="loan" id="loan_approve_btn" class="btn btn-success btn-lg">Approve Loan</button>
         </div>
         <br />
 

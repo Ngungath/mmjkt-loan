@@ -22,7 +22,8 @@ class RepoprtsController extends Controller
     Public function borrower_report_pdf(){
        
         $borrowers = Borrower::all();
-    	///dd($borrowers);
+          $styleSheet = file_get_contents(url('/css/mpdf.css'));
+    	dd($styleSheet);
 
     	$fileName = 'borrowers.pdf';
     	$mpdf = new \Mpdf\Mpdf([
@@ -40,12 +41,16 @@ class RepoprtsController extends Controller
      
         $mpdf->SetHeader('Chapter 1|Borrowers List|{PAGENO}');
         $mpdf->SetFooter('JKTLM');
+        $styleSheet = file_get_contents(url('/css/mpdf.css'));
+
+        $mpdf->WriteHTML($styleSheet,1);
         $mpdf->WriteHTML($html);
         $mpdf->Output($fileName,'I');
 
     }
 
     Public function borrowers_report_find(Request $request){
+    	//dd($request->pdf);
     	$unit_id = $request->unit;
     	$borrowers = Borrower::where('unit_id',$unit_id)
     	->join('loans','loans.borrower_id','borrowers.id')
@@ -57,20 +62,55 @@ class RepoprtsController extends Controller
     	$unit = Unit::find($unit_id);
         $lender = Lender::find($request->lender);
 
-    
-
-    	
-
     	//dd($unit->name);
     	// echo "<pre>";
     	// print_r($borrowers);
     	// exit();
     	//dd($borrowers['unit']);
     	//$borrowers['unit']=$unit->name;
- 
+
+    	 if (isset($request->pdf)) {
+        // echo "<pre>";
+        // print_r($borrowers);
+        // exit();
+    	 	
+    	 	$fileName = 'borrowers.pdf';
+    	   $mpdf = new \Mpdf\Mpdf([
+    		'margin_left'=>10,
+    		'margin_right'=>10,
+    		'margin_top'=>15,
+    		'margin_buttom'=>20,
+    		'margin_footer'=>10,
+    		'margin_header'=>10
+
+    	]);
+
+        $html = \View::make('reports.borrowers_reports_pdf')->with('borrowers',$borrowers)
+                                                ->with('unit_name',$unit->name)
+                                                ->with('lender_name',$lender->name);
+        $html = $html->render();
+     
+        $mpdf->SetHeader('JKTLM |Borrowers List|{PAGENO}');
+        $mpdf->SetFooter('JKTLM');
+        $styleSheet = file_get_contents(url('/css/mpdf.css'));
+
+        $mpdf->WriteHTML($styleSheet,1);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName,'I');
+
+    	 }else{
+
+
     	return view('reports.borrower_reports')->with('borrowers',$borrowers)
     	                                        ->with('unit_name',$unit->name)
-    	                                        ->with('lender_name',$lender->name);
+    	                                        ->with('lender_name',$lender->name)
+                                                ->with('lender_id',$request->lender)
+                                                ->with('unit_id',$request->unit);
+
+
+
+    	 }
+
 
     }
 

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Borrower extends Model
-{
+{       
+
+      use SoftDeletes;
 		public function setEntryDateAttribute($input)
 		{
 		    $this->attributes['entry_date'] = 
@@ -18,7 +21,13 @@ class Borrower extends Model
   
     ];
 
+    protected $dates = ['deleted_at'];
+
     public function loans(){
     	return $this->hasMany('App\Loan');
+    }
+
+    public function unit(){
+        return $this->belongsTo('App\Unit');
     }
 }
