@@ -22,6 +22,7 @@ class CreatePaymentsTable extends Migration
             $table->string('payment_year')->nullable();
             $table->string('payment_month')->nullable();
             $table->double('payement_amount',20,2)->default(0.00);
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->foreign('borrower_id')->references('id')->on('borrowers');
             //$table->foreign('lender_id')->references('id')->on('lenders');

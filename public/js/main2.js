@@ -8,8 +8,10 @@
       var err_approve = "";
       $("#loan_status").change(function(){
         var loan_status = $("#loan_status").val();
+       
         if (loan_status == "Approved") {
-          if (loan_payment > max_deduction && diff_in_doe < 3) {
+          alert(loan_payment);
+          if (loan_payment <= max_deduction && diff_in_doe >= 3) {
               swal({
               title: 'Are you sure?',
               text: "Borrower didn't qualify for loan!",
@@ -57,7 +59,7 @@
 
           }
 
-        }else{
+        }else if(loan_status == "Declined"){
 
           swal({
               title: 'Are you sure?',
@@ -70,18 +72,54 @@
           }).then(function () {
           
            $('#loan_approve_btn').click(function(e){  
-            $("#approve_form").submit();
+            if (loan_status == 0) {
+              alert('Please select loan Status to proceed');
+            }else{
+                $("#approve_form").submit();
+            }
+          
            }); 
         });
+        }else{
+         
+         alert('Please select loan Status to proceed');
+
         }
       });
      
     
     
+
         
     });
 
-  
+   //Select all check boxes in banch payment
+
+    $('#pay_all').change(function(){
+      $('.payment').prop('checked',$(this).prop("checked"));
+    });
+
+    $('.payment').change(function(){
+      if ($(this).prop('checked')== false) {
+        $('#pay_all').prop('checked',false);
+      }
+      if ($('.payment:checked').length == $('.payment').length) {
+        $('#pay_all').prop('checked',true);
+      }
+    });
+
+    $("#pay_all_btn").click(function(){
+
+      if ($('.payment:checked').length == 0) {
+       alert('select at least one item to make payment'); 
+      }else{
+        $("#banch_payments_form").submit();
+      }
+
+      
+    });
+
+
 
 
     $(".btn-submit").click(function(e){

@@ -1,6 +1,6 @@
 <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
-          <a href="#">
+          <a href="{{url('/home')}}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
@@ -54,7 +54,7 @@
           <ul class="treeview-menu">
             <li class="active"><a href="{{route('loans')}}"><i class="fa fa-circle-o"></i> View All Loans
                 <span class="pull-right-container">
-                <span class="label label-info pull-right">{{App\Loan::count()}}</span>
+                <span class="label label-info pull-right">{{App\Loan::where('active',1)->count()}}</span>
                 </span>
             </a></li>
         <li>
@@ -73,9 +73,6 @@
                     </span>
                 </a>
               </li>
-            
-          <li><a href="#"><i
-                  class="fa fa-circle-o"></i> Loan Calculator</a></li>
           <li><a href="{{route('lender')}}"><i
                   class="fa fa-bank"></i>Manage Lender</a></li>
           <li><a href="#"><i
@@ -114,15 +111,6 @@
                                     </a></li>
                                 <li><a href="#"><i
                                                 class="fa fa-circle-o"></i> Loan Reports
-                                    </a></li>
-                                <li><a href="#"><i
-                                                class="fa fa-circle-o"></i> Financial Reports
-                                    </a></li>
-                                <li><a href="#"><i
-                                                class="fa fa-circle-o"></i> Organisation Reports
-                                    </a></li>
-                                <li><a href="#"><i
-                                                class="fa fa-circle-o"></i> Savings Reports
                                     </a></li>
 
                             </ul>

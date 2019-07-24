@@ -25,7 +25,7 @@
           </div>
         </div>
         <?php 
-          $max_deduction = number_format(round((1/3*$borrower->monthly_net_salary)));
+          $max_deduction = round((1/3*$loan->current_net_salary));
           $monthly_repayment = round(get_monthly_repayment($loan->loan_amount, $lender->interest, $loan->repayment_period));
 
         ?>
@@ -35,7 +35,7 @@
                 <tr>
                 
                   <td>Net Salary</td>
-                   <td>{{$borrower->monthly_net_salary}}</td>
+                   <td>{{$loan->current_net_salary}}</td>
                    <td>Maximum Deduction Amount per Month : {{$max_deduction}}</td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
                 </tr>
               </tbody></table>
               <hr>
-            @if($loan->loan_type == 'Top Up' && isset($loans))
+            @if($loan->loan_type == 'Top Up' && isset($privious_loans))
             <?php $id = 1 ;
 
             ?>
@@ -73,21 +73,19 @@
                    <td><b>Lender</b></td>
                    <td><b>Due Amount</b></td>
                 </tr>
-                @foreach($loans as $loan)
+               
                 <?php  
-                $lender_name = explode('-',$loan->loan_number);
-                $total_payment = get_borrowers_payments($loan->borrower_id,$loan->id,$loan->lender_id);
-                $due_payment = $loan->loan_amount - $total_payment;
+                $lender_name = explode('-',$privious_loans->loan_number);
+                $total_payment = get_borrowers_payments($privious_loans->borrower_id,$privious_loans->id,$privious_loans->lender_id);
+                $due_payment = $privious_loans->loan_amount - $total_payment;
 
                 ?>
                 <tr>
                   <td>{{$id++}}</td>
-                  <td>{{$loan->loan_amount}}</td>
+                  <td>{{$privious_loans->loan_amount}}</td>
                   <td>{{$lender_name[1]}}</td>
                   <td>{{$due_payment}}</td>
                 </tr>
-               
-                @endforeach
               </tbody>
             </table>
           </div>
@@ -106,12 +104,19 @@
             <!-- form start -->
             <form role="form" method="post" id="approve_form" action="{{route('loan.approve')}}">
               {{csrf_field()}}
+              @if(isset($privious_loans))
+              <input type="hidden" name="due_amount" id="due_amount" value="{{$due_payment}}">
+              <input type="hidden" name="lender_id" value="{{$privious_loans->lender_id}}">
+              <input type="hidden" name="privious_loans_id" value="{{$privious_loans->id}}">
+              
+              @endif
               <input type="hidden" name="borrower_id" id="borrower_id" value="{{$loan->borrower_id}}">
                <input type="hidden" name="loan_id" id="loan_id" value="{{$loan->id}}">
                <input type="hidden" name="loan_monthly_payment" id="loan_monthly_payment" value="{{$monthly_repayment}}">
                <input type="hidden"  name="max_deduction" id="max_deduction" value="{{$max_deduction}}">
                <input type="hidden" name="diff_in_doe" id="diff_in_doe" value="{{$diff_in_doe}}">
                <input type="hidden" name="diff_in_rod" id="diff_in_rod" value="{{$diff_in_rod}}">
+
                   <div class="row">
                 <div class="col col-md-12">
                   <div class="col-md-4">

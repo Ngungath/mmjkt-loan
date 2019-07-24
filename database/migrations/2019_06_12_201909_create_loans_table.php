@@ -20,13 +20,16 @@ class CreateLoansTable extends Migration
             $table->string('loan_purpose')->nullable();
             $table->enum('loan_type',['New','Top Up'])->default('New');
             $table->double('loan_amount',20,2)->default(0.00);
+            $table->double('due_amount',20,2)->default(0.00);
             $table->double('monthly_payable_amount',20,2)->default(0.00);
+            $table->double('current_net_salary',20,2)->default(0.00);
             $table->integer('lender_id')->unsigned();
             $table->integer('borrower_id')->unsigned();
             $table->string('application_year')->nullable();
             $table->string('application_month')->nullable();
             $table->enum('loan_status',['Pending','Approved','Declined','open',
                 'fully_paid','Suspended'])->default('Pending');
+            $table->boolean('active')->default(true);
             $table->integer('repayment_period')->nullable();
             $table->text('loan_approval_reason')->nullable();
             $table->enum('loan_repayment_type',[

@@ -5,12 +5,27 @@
 				<title></title>
 			</head>
 			<body>
-			<div style="text-align: center;">
-		   <img style="max-height: 70px; max-width: 70px; text-align: center;" src="{{asset('img/jkt.png')}}">
-		   <br>
-		   <h4>Orodha ya wadaiwa  Kambi ya <b>{{$unit_name}}</b> , Benki : <b>{{$lender_name}}</b> </h4>
-			</div>
+				<table style="margin-left: 50px ; text-align: center;">
+					<tbody>
+						<tr>
+							<td>
+								<img style="max-height: 70px; max-width: 70px; margin-right:50px" src="{{asset('img/jkt.png')}}">
+							</td>
+							<td>
+								<h3 style="text-decoration: underline;">JESHI LA KUJENGA TAIFA (JKT)</h3>
+								 <h4>Orodha ya wadaiwa  Kambi ya <b>{{$unit_name}}</b> , Benki : <b>{{$lender_name}}</b> </h4>
+							</td>
+							<td>
+								<img style="max-height: 70px; max-width: 70px; margin-left: 50px" src="{{asset('img/tzflag.jpg')}}">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
 			<hr>
+			
+		  
+
 			<table class="blueTable">
 			<thead>
 			<tr>

@@ -56,7 +56,7 @@
           <div class="box box-success">
             <div class="box-header with-border">
               <span class="fa fa-book"></span><h3 class="box-title">Borrowers Information</h3>
-              <form method="post" action="{{route('borrowers_report.find')}}">
+              <form method="post" target="_blank" action="{{route('borrowers_report.find')}}">
                   {{csrf_field()}}
                  <input type="hidden" name="pdf" value="pdf">
                  @if(isset($lender_id))

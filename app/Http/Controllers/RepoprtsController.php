@@ -23,7 +23,7 @@ class RepoprtsController extends Controller
        
         $borrowers = Borrower::all();
           $styleSheet = file_get_contents(url('/css/mpdf.css'));
-    	dd($styleSheet);
+    	//dd($styleSheet);
 
     	$fileName = 'borrowers.pdf';
     	$mpdf = new \Mpdf\Mpdf([
@@ -45,7 +45,7 @@ class RepoprtsController extends Controller
 
         $mpdf->WriteHTML($styleSheet,1);
         $mpdf->WriteHTML($html);
-        $mpdf->Output($fileName,'I');
+        $mpdf->Output('S');
 
     }
 
@@ -53,6 +53,7 @@ class RepoprtsController extends Controller
     	//dd($request->pdf);
     	$unit_id = $request->unit;
     	$borrowers = Borrower::where('unit_id',$unit_id)
+        ->where('active',1)
     	->join('loans','loans.borrower_id','borrowers.id')
     	->where('loans.lender_id',$request->lender)
     	->select('loans.*','borrowers.fname','borrowers.lname')
@@ -113,6 +114,42 @@ class RepoprtsController extends Controller
 
 
     }
+
+      public function borrower_individual_report_pdf($id){
+        $borrower = Borrower::find($id);
+        $unit_name = Unit::find($borrower->unit_id)->name;
+        $loans = Loan::where('borrower_id',$borrower->id)
+                      ->where('active',1)->get();
+
+
+
+        $fileName = 'borrower.pdf';
+           $mpdf = new \Mpdf\Mpdf([
+            'margin_left'=>10,
+            'margin_right'=>10,
+            'margin_top'=>15,
+            'margin_buttom'=>20,
+            'margin_footer'=>10,
+            'margin_header'=>10
+
+        ]);
+
+        $html = \View::make('reports.borrower_individual_report_pdf')
+        ->with('borrower',$borrower)
+        ->with('unit_name',$unit_name)
+        ->with('loans',$loans);
+        $html = $html->render();
+     
+        $mpdf->SetHeader('JKTLM |Borrower Information|{PAGENO}');
+        $mpdf->SetFooter('JKTLM');
+        $styleSheet = file_get_contents(url('/css/mpdf.css'));
+
+        $mpdf->WriteHTML($styleSheet,1);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($fileName,'I');
+      
+
+       }
 
 
 }

@@ -109,6 +109,8 @@ Route::get('borrower/delete/{id}',[
 'as'=>'borrower.delete'
 
 ]);
+
+
 });
 
 //Units Controller
@@ -206,6 +208,10 @@ Route::get('/loans/banch_payments',[
 'uses'=>'LoansController@banch_payments',
 'as'=>'loans.banch_payments'
 ]);
+Route::post('/banch_payments_store',[
+'uses'=>'LoansController@banch_payments_store',
+'as'=>'banch_payments_store'
+]);
 
 //Repayments Routes
 Route::get('/payment/create/{id}',[
@@ -216,6 +222,11 @@ Route::get('/payment/create/{id}',[
 Route::post('/payment/store/',[
  'uses'=>'PaymentsController@store',
  'as'=>'payment.store',
+]);
+
+Route::get('payment/single/{id}',[
+  'uses'=>'PaymentsController@single_payment',
+  'as'=>'loan_payment.single'
 ]);
 
 //Lender Controller
@@ -246,6 +257,12 @@ Route::get('/borrower/report_pdf',[
 Route::post('/borrower/report_pdf',[
  'uses'=>'RepoprtsController@borrowers_report_find',
  'as'=>'borrowers_report.find'
+
+]);
+
+Route::get('borrower_individual_report/pdf/{id}',[
+'uses'=>'RepoprtsController@borrower_individual_report_pdf',
+'as'=>'borrower_individual_report.pdf'
 
 ]);
 

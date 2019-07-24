@@ -17,6 +17,9 @@
               <h3 class="box-title">Banch Loan Approval</h3>
             </div>
             <!-- /.box-header -->
+            <form method="POST" action="{{route('banch_payments_store')}}" id="banch_payments_form">
+              {{csrf_field()}}
+
             <div class="box-body">
               <table class="table table-bordered">
                 <tbody><tr>
@@ -34,7 +37,13 @@
                   <td>{{ucfirst($borrower->fname).' '.ucfirst($borrower->lname)}}</td>
                   <td>{{$loan->loan_amount}}</td>
                   <td>{{$loan->monthly_payable_amount}}</td>
-                  <td><input type="checkbox" name="amount[]"></td>
+                  <div class="checkbox">
+                  <td>
+                    
+                    <input type="checkbox" class="payment" name="loan_id[]" value="{{$loan->id}}">
+                    
+                  </td>
+                  </div>
                   
                 </tr>
                 @endforeach
@@ -47,36 +56,56 @@
               <div class="form-group">
                 <label class="control-label">Select Year</label>
                 <select class="form-control" name="year" id="year">
-                  <option value="2019">2019</option>
-                  <option value="2019">2020</option>
-                  <option value="2019">2021</option>                
+                  <?php 
+                  $current_year = date('Y');
+                  $ranges = range($current_year, $current_year+30);
+                  foreach ($ranges as $range) {
+                    ?>
+                     <option value="2019">{{$range}}</option>
+                    <?php
+                    
+                  }
+                  ?>
+                           
                 </select>
               </div>
             </div>
+
               <div class="col-md-4">
               <div class="form-group">
                 <label class="control-label">Select Month</label>
-                <select class="form-control" name="year" id="year">
-                  <option value="2019">January</option>
-                  <option value="2019">February</option>
-                  <option value="2019">March</option>                
+                <select class="form-control" name="month" id="month">
+                  <?php 
+                  for ($m=1; $m<=12; $m++) {
+                     $month = date('F', mktime(0,0,0,$m, 1, date('Y')));
+                     ?>
+                     <option value="{{$month}}">{{$month}}</option>
+                     <?php
+                     }
+                  ?>
+                             
                 </select>
               </div>
             </div>
             <div class="col-md-4">
                  <div class="form-group">
           
-                  <button type="submit" style="margin-top: 25px" class="btn btn-success">Make Payment</button>
+                  <button type="button" id="pay_all_btn" style="margin-top: 25px" class="btn btn-success">Make Payment</button>
                   <br>
 
               </div> 
                 <div class="form-group pull-right" style="margin-right:100px; margin-top: -45px">
-                  <label class="label-control">Select All</label>
-                  <input type="checkbox" name="select_all">
+                  <div class="checkbox">
+                  <label class="label-control">Select All
+                  <input type="checkbox" name="select_all" id="pay_all">
+                  </label>
+                </div>
               </div> 
             </div>
+
             </div>
             </div>
+            </form>
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
                 {{$loans->links()}}

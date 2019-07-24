@@ -12,13 +12,13 @@
       </ol>
     </section>
 <section class="content">
-  <div class="box">
+  <div class="box box-success">
 
       <div class="row">
         <div class="col-md-3">
 
           <!-- Profile Image -->
-          <div class="box box-primary">
+          <div class="box box-success">
             <div class="box-body box-profile">
               <img class="profile-user-img img-responsive img-circle" src="{{asset($borrower->applicant_photo)}}" alt="User profile picture">
 
@@ -37,8 +37,9 @@
                   <b>Mobile Number</b> <a class="pull-right">{{$borrower->mob_number}}</a>
                 </li>
               </ul>
-
-              <a href="#" class="btn btn-primary btn-block"><b>Add Loan</b></a>
+              <form method="get" target="_blank" action="{{route('borrower_individual_report.pdf',['id'=>$borrower->id])}}">
+                 <button type="submit" class="btn btn-success btn-block"><b>Priview Profile</b></button>
+              </form>
             </div>
             <!-- /.box-body -->
           </div>
@@ -112,10 +113,10 @@
               <div class="tab-pane" id="loan">
 
                 <!-- Loan Tab start -->
-             <div class="box">
+             <div class="box box-success">
             <div class="box-header" style="padding-bottom: 5px;">
               <h3 class="box-title">Borrower Payments</h3>
-               <a href="{{route('loans.create',['id'=>$borrower->id])}}" class="btn btn-primary pull-right"><b>Add Loan</b></a>
+               <a href="{{route('loans.create',['id'=>$borrower->id])}}" class="btn btn-success pull-right"><b>Add Loan</b></a>
 
             </div>
             <hr>
@@ -134,7 +135,7 @@
                  ?>
                 @foreach($loans as $loan)
                  <?php
-                 $total_payment = App\Payment::where('loan_number',$loan->loan_number)
+                $total_payment = App\Payment::where('loan_number',$loan->loan_number)
                                                         ->where('lender_id',$loan->lender->id)
                                                         ->sum('payement_amount');
                                                        //dd($loan->lender->name);
@@ -143,7 +144,7 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$loan->loan_amount}}</td>
-                  <td>{{(($loan->loan_amount +($loan->loan_amount *($loan->lender->interest/100)) - $total_payment ))}}</td>
+                  <td>{{($loan->loan_amount - $total_payment)}}</td>
                   <td><a href="#">{{$total_payment}}</a></td>
                    <td>{{$loan->lender->name}}</td>
                   @if($loan->loan_status == "Approved")
@@ -163,7 +164,7 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{{route('loan.wiew_approve',['id'=>$loan->id])}}">Approve Loan</a></li>
-                    <li><a href="#">Decline Loan</a></li>
+                    <li><a href="{{route('loan_payment.single',['id'=>$loan->id])}}">Add Payment</a></li>
                     <li><a href="#">Edit Loan</a></li>
                     <li class="divider"></li>
                     <li><a href="#">Preview Loan</a></li>
@@ -183,10 +184,10 @@
               <div class="tab-pane" id="payments">
 
                 <!-- Payments Table Start -->
-           <div class="box">
+           <div class="box box-success">
             <div class="box-header" style="padding-bottom: 10px;">
               <h3 class="box-title">Borrower Payments</h3>
-              <a class="btn btn-primary pull-right" href="{{route('payment.create',['id'=>$borrower->id])}}">Add Payment</a>
+              <a class="btn btn-success pull-right" href="{{route('payment.create',['id'=>$borrower->id])}}">Add Payment</a>
 
             </div>
             <hr>
@@ -204,8 +205,8 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$payment->payement_amount}}</td>
-                  <td>{{$payment->payment_date}}</td>
-                  <td>{{$payment->lender}}</td>
+                  <td>{{$payment->payment_month.' '.$payment->payment_year}}</td>
+                  <td>{{App\Lender::where('id',$payment->lender_id)->first()->name}}</td>
                  <td>{{$loan->loan_number}}</td>                          
                   <td>
                     <div class="btn-group">

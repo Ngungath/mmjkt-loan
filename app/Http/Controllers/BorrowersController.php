@@ -60,7 +60,6 @@ class BorrowersController extends Controller
      $newRod =date('Y-m-d',strtotime($request->rod)) ;
     // dd($newRod);
 
-    $borrower->loan_number = $request->loan_number;
     $borrower->fname = $request->fname;
     $borrower->mname = $request->mname;
     $borrower->fname = $request->fname;
@@ -103,8 +102,12 @@ class BorrowersController extends Controller
      */
     public function show($id)
     {
-        $loans = Loan::where('borrower_id',$id)->get();
-        $payments = Payment::where('borrower_id',$id)->get();
+        $loans = Loan::where('borrower_id',$id)
+                       ->where('active',true)
+                       ->get();
+        $payments = Payment::where('borrower_id',$id)
+                             ->where('active',true)
+                             ->get();
        
         $borrower = Borrower::find($id);
         return view('borrowers.show')->with('borrower',$borrower)
@@ -170,4 +173,6 @@ class BorrowersController extends Controller
         return redirect()->route('borrower.index');
 
     }
+
+ 
 }

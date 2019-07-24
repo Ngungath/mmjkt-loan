@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment;
+use DateTime;
 use Session;
 use App\Lender;
 use App\Loan;
@@ -25,12 +26,25 @@ class PaymentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($borrower_id)
     {   
-        $loans = Loan::where('borrower_id',$id)->get();
-        return view('payments.create')->with('borrower_id',$id)
+        $loans = Loan::where('borrower_id',$borrower_id)
+                       ->where('active',1)
+                       ->get();
+
+        return view('payments.create')->with('borrower_id',$borrower_id)
                                        ->with('lenders',Lender::all())
                                        ->with('loans',$loans);
+    }
+
+    public function single_payment($loan_id){
+        $loan =  Loan::find($loan_id);
+        $lender = Lender::find($loan->lender_id);
+
+    return view('payments.single_payment')->with('borrower_id',$loan->borrower_id)
+                                       ->with('lender',$lender)
+                                       ->with('loan',$loan);
+
     }
 
     /**
@@ -61,8 +75,7 @@ class PaymentsController extends Controller
         //dd($loan_payment['payement_amount']);
          
         $originalpay_date = $request->repayment_date;
-         $new_pay_date = strtotime($originalpay_date);
-         $new_pay_date = date('Y-m-d');
+         $new_pay_date = date('Y-m-d',strtotime($originalpay_date));
          //check if the loan as already approved
 
          $loan = Loan::where('loan_number',$request->loan_number)->first();
@@ -84,13 +97,17 @@ class PaymentsController extends Controller
 
         $lender_id =Lender::where('name',$lender[1])->first();
         //dd($lender_id->id);
-         
+        $monthNum  =  $date[1];
+        $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+        $monthName = $dateObj->format('F'); // March
+        
+     
         $payment->borrower_id = $request->borrower_id;
         $payment->lender_id = $lender_id->id;
         $payment->loan_number = $request->loan_number;
         $payment->loan_id = $loan->id;
-        $loan->payment_year =  $date[0];
-        $loan->payment_month =  $date[2];
+        $payment->payment_year =  $date[0];
+        $payment->payment_month =  $monthName;
         $payment->payement_amount = $request->payment_amount;
         $payment->save();
         // $payment = Payment::where('borrower_id',$request->borrower_id)
@@ -156,4 +173,5 @@ class PaymentsController extends Controller
     // {
 
     // }
+    //body > div > header > div.topbar > div > div
 }
