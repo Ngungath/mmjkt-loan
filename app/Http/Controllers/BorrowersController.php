@@ -123,7 +123,8 @@ class BorrowersController extends Controller
      */
     public function edit($id)
     {
-        //
+        $borrower = Borrower::find($id);
+        return view('borrowers.update')->with('borrower',$borrower);
     }
 
     /**
@@ -135,7 +136,50 @@ class BorrowersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $borrower= Borrower::find($id);
+       $borrower_photo_new ="";
+    if ($request->hasFile('applicant_photo')) {
+        
+        $borrower_photo = $request->applicant_photo;
+
+        $borrower_photo_new = time().$borrower_photo->getClientOriginalName();
+
+        $borrower_photo->move('uploads/borrowers_photos',$borrower_photo_new);
+
+        $borrower_photo_new = 'uploads/borrowers_photos/'.$borrower_photo_new;
+     }
+     $newDob =date('Y-m-d',strtotime($request->dob));
+     $newDoe =date('Y-m-d',strtotime($request->doe)) ;
+     $newRod =date('Y-m-d',strtotime($request->rod)) ;
+    // dd($newRod);
+
+    $borrower->fname = $request->fname;
+    $borrower->mname = $request->mname;
+    $borrower->fname = $request->fname;
+    $borrower->lname = $request->lname;
+    $borrower->dob =  $newDob;
+    $borrower->place_birth = $request->place_birth;
+    $borrower->comp_number = $request->comp_number;
+    $borrower->id_no = $request->id_number;
+    $borrower->mob_number = $request->mob_number;
+    $borrower->hom_number = $request->hom_number;
+    $borrower->gender = $request->gender;
+    $borrower->contract_status = $request->contract_status;
+    $borrower->salary_bank = $request->salary_bank;
+    $borrower->bank_acc_number = $request->bank_acc_number;
+    $borrower->bank_branch = $request->bank_branch;
+    $borrower->loan_type = $request->loan_type;
+    $borrower->applicant_photo = $borrower_photo_new;
+    $borrower->unit_id = $request->unit_id;
+    $borrower->doe = $newDoe;
+    $borrower->rod = $newRod;
+    $borrower->rank = $request->rank;
+    $borrower->monthly_basic_salary = $request->monthly_basic_salary;
+    $borrower->monthly_net_salary = $request->monthly_net_salary;
+    $borrower->update();
+    Session::flash('success','Borrower updated successfuly.');
+    return redirect()->route('borrower.index');
+    
     }
 
     /**

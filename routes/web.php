@@ -54,13 +54,36 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->middleware('auth');
+//Route::get('/home', 'HomeController@index')->middleware('auth');
 //Users Controller
 Route::get('users',[
  'uses'=>'UsersController@index',
  'as'=>'users'
 ]);
 
+Route::get('user/create',[
+'uses'=>'UsersController@create',
+'as'=>'user.create'
+]);
+
+Route::post('user/store',[
+'uses'=>'UsersController@store',
+'as'=>'user.store'
+]);
+
+Route::get('/user/edit/{id}',[
+'uses'=>'UsersController@edit',
+'as'=>'user.edit'
+]);
+Route::get('/user/destroy/{id}',[
+'uses'=>'UsersController@destroy',
+'as'=>'user.destroy'
+]);
+
+Route::post('/user/update/{id}',[
+'uses'=>'UsersController@update',
+'as'=>'user.update'
+]);
 //Authentication middleware
 Route::middleware(['auth'])->group(function(){
 
@@ -110,6 +133,17 @@ Route::get('borrower/delete/{id}',[
 
 ]);
 
+Route::get('borrower/edit/{id}',[
+ 'uses'=>'BorrowersController@edit',
+ 'as'=>'borrower.edit'
+]);
+
+Route::post('borrower/update/{id}',[
+'uses'=>'BorrowersController@update',
+'as'=>'borrower.update'
+
+
+]);
 
 });
 
@@ -265,6 +299,9 @@ Route::get('borrower_individual_report/pdf/{id}',[
 'as'=>'borrower_individual_report.pdf'
 
 ]);
+
+//Settings Controller
+
 
 });
 //End of Authentication middleware

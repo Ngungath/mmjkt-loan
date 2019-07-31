@@ -2,8 +2,10 @@
 @section('content')
 <section class="content-header">
       <h1>
+        <a href="{{route('home')}}">
         Dashboard
-        <small>Control panel</small>
+        </a>
+        <small> > Users</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> All Users</a></li>
@@ -14,7 +16,8 @@
 <section class="content">
 	<div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">JKTLM uSERS</h3>
+              <h3 class="box-title">JKTLM Users</h3>
+              <a href="{{route('user.create')}}"><button class="btn btn-success pull-right">Add New User</button></a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -31,8 +34,8 @@
                   <td>{{$user->name}}</td>
                   <td>{{$user->email}}</td>
                   <td>
-                    <a class="badge bg-red">delete</a>
-                    <a class="badge bg-green">update</a>
+                    <a href="{{route('user.destroy',['id'=>$user->id])}}" class="badge bg-red">delete</a>
+                    <a href="{{route('user.edit',['id'=>$user->id])}}" class="badge bg-green">update</a>
                   </td>
                 </tr>
                 @endforeach

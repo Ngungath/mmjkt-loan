@@ -39,7 +39,7 @@
                   <td>{{$borrower->mob_number}}</td>
                   <td>
                     <a href="{{route('borrowers.destroy',['id'=>$borrower->id])}}" class="badge bg-red">suspend</a>
-                    <a href="#" class="badge bg-green">update</a>
+                    <a href="{{route('borrower.edit',['id'=>$borrower->id])}}" class="badge bg-green">update</a>
                     <a href="{{route('borrower.show',['id'=>$borrower->id])}}" class="fa fa-eye">View details</a>
                   </td>
                 </tr>

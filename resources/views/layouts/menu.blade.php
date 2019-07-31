@@ -4,6 +4,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
+       
        <li class="treeview">
           <a href="#">
             <i class="fa fa-briefcase"></i> <span>JKT Units</span>
@@ -16,7 +17,7 @@
             <li><a href="{{route('units.create')}}"><i class="fa fa-circle-o"></i> Add Unit</a></li>
           </ul>
         </li>
-
+      
          <li class="treeview">
           <a href="#">
             <i class="fa fa-users"></i> <span>Borrowers</span>
@@ -28,11 +29,6 @@
         <li class="active"><a href="{{route('borrower.index')}}"><i class="fa fa-circle-o"></i>View Borrowers
 </a></li>
             <li><a href="{{route('borrower.create')}}"><i class="fa fa-circle-o"></i>Add Borrower
-</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>View Borrower Groups
-
-</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>Add Borrower Group
 </a></li>
 <li>
   <a href="{{route('suspended.borrowers')}}"><i
@@ -125,10 +121,12 @@
           <ul class="treeview-menu">
             <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i>Email</a></li>
             <li><a href="index2.html"><i class="fa fa-circle-o"></i>SMS</a></li>
+            @can('isAdmin')
             <li><a href="index2.html"><i class="fa fa-circle-o"></i>Manage SMS Gateways</a></li>
+            @endCan
           </ul>
         </li>
-       
+        @can('isAdmin')
         <li class="treeview">
           <a href="#">
             <i class="fa fa-briefcase"></i> <span>Users</span>
@@ -137,15 +135,24 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="{{route('users')}}"><i class="fa fa-circle-o"></i>View Users</a></li>
-            <li><a href="{{route('roles')}}"><i class="fa fa-circle-o"></i>Manage Roles</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>Add Users</a></li>
+            <li class="active"><a href="{{route('users')}}"><i class="fa fa-circle-o"></i>Manage Users</a></li>
+            <!-- <li><a href="{{route('roles')}}"><i class="fa fa-circle-o"></i>Manage Roles</a></li> -->
+            <!-- <li><a href="index2.html"><i class="fa fa-circle-o"></i>Add Users</a></li> -->
+          </ul>
+       
+        </li>
+
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-briefcase"></i> <span>Settings</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>System Settings</a></li>
           </ul>
         </li>
-          <li class="">
-            <a href="#">
-               <i class="fa fa-cog"></i> <span>Settings</span>
-                  </a>
-                    </li>
+       @endCan
 
       

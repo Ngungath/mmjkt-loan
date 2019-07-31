@@ -32,7 +32,9 @@
                   <td>{{$unit->name}}</td>
                   <td>{{$unit->number}}</td>
                   <td>
+                    @can('isAdmin')
                     <a href="{{route('unit.delete',['id'=>$unit->id])}}" class="badge bg-red">delete</a>
+                    @endCan
                     <a href="{{route('unit.edit',['id'=>$unit->id])}}" class="badge bg-green">update</a>
                   </td>
                 </tr>

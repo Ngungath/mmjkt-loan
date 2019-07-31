@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Contracts\Auth\Access\Gate as GetContract;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -21,10 +21,19 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(GetContract $get)
     {
-        $this->registerPolicies();
+        $this->registerPolicies($get);
 
-        //
+        //For admin ACL
+        $get->define('isAdmin',function($user){
+            return $user->user_type == 'admin';
+
+        });
+
+        //For Staff ACL
+        $get->define('isStaff',function($user){
+            return $user->user_type == 'staff';
+        });
     }
 }

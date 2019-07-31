@@ -28,10 +28,10 @@
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Basic Salary</b> <a class="pull-right">{{$borrower->monthly_basic_salary}}</a>
+                  <b>Computer Number</b> <a class="pull-right">{{$borrower->comp_number}}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Net Salary</b> <a class="pull-right">{{$borrower->monthly_net_salary}}</a>
+                  <b>Place of Birth</b> <a class="pull-right">{{$borrower->place_birth}}</a>
                 </li>
                 <li class="list-group-item">
                   <b>Mobile Number</b> <a class="pull-right">{{$borrower->mob_number}}</a>
@@ -45,54 +45,6 @@
           </div>
           <!-- /.box -->
 
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">About Borrower</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Unit Name</strong>
-
-              <p class="text-muted">
-                {{$borrower->unit->name}}
-              </p>
-
-               <hr>
-
-              <strong><i class="fa fa-file-text margin-r-5"></i> Unit Number</strong>
-
-              <p class="text-muted">{{$borrower->unit->number}}</p>
-
-              <hr>
-
-              <hr>
-
-              <strong><i class="fa fa-map-marker margin-r-5"></i>Barack Location</strong>
-
-              <p class="text-muted">{{$borrower->location}}</p>
-
-              <hr>
-
-             <!--  <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-              <p>
-                <span class="label label-danger">UI Design</span>
-                <span class="label label-success">Coding</span>
-                <span class="label label-info">Javascript</span>
-                <span class="label label-warning">PHP</span>
-                <span class="label label-primary">Node.js</span>
-              </p>
-
-              <hr> -->
-
-              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
         </div>
         <!-- /.col -->
         <div class="col-md-9">
@@ -105,7 +57,62 @@
             <div class="tab-content">
               <div class="tab-pane active" id="profile">
              <!-- Profile start-->
-            
+            <div class="box box-success">
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <table class="table table-bordered" style="text-align: center;">
+                <tbody>
+                <tr>
+                
+                  <td style="font-weight: bold;">Unit Name</td>
+                  <td>
+                   <span class="badge bg-green">{{$borrower->unit->name}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Gender</td>
+                  <td>
+                   <span class="badge bg-green">{{$borrower->gender}}</span>
+                  </td>
+                </tr>
+                <tr>
+             
+                  <td style="font-weight: bold;">Unit Number</td>
+                  <td>
+                   <span class="badge bg-green">{{$borrower->unit->number}}</span>
+                  </td>
+                  
+                </tr>
+                <tr>
+                 
+                  <td style="font-weight: bold;">Unit Location</td>
+                  <td>
+                    <span class="badge bg-green">{{$borrower->location}}</span>
+                  </td>
+                </tr>
+                <tr>
+                 
+                  <td style="font-weight: bold;">Basic Salary</td>
+                  <td>
+                  <span class="badge bg-green">{{$borrower->monthly_basic_salary}}</span>
+                  </td>
+                </tr>
+                 <tr>
+                  <td style="font-weight: bold;">Net Salary</td>
+                  <td>
+                  <span class="badge bg-green">{{$borrower->monthly_net_salary}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Contract Status</td>
+                  <td>
+                  <span class="badge bg-green">{{$borrower->contract_status}}</span>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+            <!-- /.box-body -->
+          </div>
 
              <!-- End profile -->
               </div>
