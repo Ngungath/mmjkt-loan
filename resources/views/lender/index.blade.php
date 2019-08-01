@@ -13,12 +13,13 @@
     <section class="content">
       
 
-          <div class="box box-default">
+          <div class="box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">Lenders</h3>
-              <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#modal-lender">
+             <a href="{{route('lender.create')}}">
+              <button type="button" class="btn btn-default pull-right">
                 Add Lender
-              </button>
+              </button></a>
             </div>
            <!-- /.box-header -->
 
@@ -28,30 +29,30 @@
                 <tbody>
                   <tr>
                   <th style="width: 10px">#</th>
-                  <th>Task</th>
-                  <th>Progress</th>
-                  <th>Label</th>
+                  <th>Lender Name</th>
+                  <th>Interest</th>
+                  <th>Action</th>
                 </tr>
+                <?php $i = 1; ?>
+                @foreach($lenders as $lender)
                 <tr>
-                  <td>4.</td>
-                  <td>Fix and squish bugs</td>
+                  <td>{{$i++}}</td>
+                  <td>{{$lender->name}}</td>
+                  <td>{{$lender->interest}}</td>
                   <td>
-                    <div class="progress progress-xs progress-striped active">
-                      <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                    </div>
+                  <a href="{{route('lender.edit',['id'=>$lender->id])}}"><button class="btn btn-primary btn-xs"> Edit</button></a>
+                  <form action="{{route('lender.destroy',['id'=>$lender->id])}}" method="" id="lender-delete-form">
+                  <button type="button" class="btn btn-danger btn-xs" onclick="delete_lender()">Delete</button>
+                  </form>
                   </td>
-                  <td><button class="btn btn-primary btn-xs" onclick="Load_lender_table()">Edit</button></td>
                 </tr>
+                @endforeach
               </tbody></table>
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">»</a></li>
+             {{$lenders->links()}}
               </ul>
             </div>
             <!-- Ender Lender Table -->
@@ -60,29 +61,16 @@
 
 
 
-<!-- Lender Modal start -->
-          <div class="modal fade" id="modal-lender">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Default Modal</h4>
-              </div>
-              <div class="modal-body">
-                <p>One fine body&hellip;</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /End lender modal -->
 
 
     </section>
 @endsection
+<script type="text/javascript">
+  function delete_lender(){
+    if (confirm('Are you sure you want to delete the lender')) {
+      $('#lender-delete-form').submit();
+    }else{
+      return false;
+    }
+  }
+</script>

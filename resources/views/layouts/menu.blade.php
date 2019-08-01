@@ -113,7 +113,7 @@
                         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-briefcase"></i> <span>Communication</span>
+            <i class="fa fa-envelope-o"></i> <span>Communication</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -129,13 +129,13 @@
         @can('isAdmin')
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-briefcase"></i> <span>Users</span>
+            <i class="fa fa-users"></i> <span>Users</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="{{route('users')}}"><i class="fa fa-circle-o"></i>Manage Users</a></li>
+            <li class="active"><a href="{{route('users')}}"><i class="fa fa-users"></i>Manage Users</a></li>
             <!-- <li><a href="{{route('roles')}}"><i class="fa fa-circle-o"></i>Manage Roles</a></li> -->
             <!-- <li><a href="index2.html"><i class="fa fa-circle-o"></i>Add Users</a></li> -->
           </ul>
@@ -144,13 +144,13 @@
 
       <li class="treeview">
           <a href="#">
-            <i class="fa fa-briefcase"></i> <span>Settings</span>
+            <i class="fa fa-gears"></i> <span>Settings</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="#"><i class="fa fa-circle-o"></i>System Settings</a></li>
+            <li class="active"><a href="{{route('system_settings')}}"><i class="fa fa-circle-o"></i>System Settings</a></li>
           </ul>
         </li>
        @endCan

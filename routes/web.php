@@ -268,12 +268,15 @@ Route::get('/lender',[
 'uses'=>'LenderController@index',
 'as'=>'lender',
 ]);
-
-Route::post('/lender/store','LenderController@store');
+Route::get('/lender/create','LenderController@create')->name('lender.create');
+Route::post('/lender/store','LenderController@store')->name('lender.store');
 Route::get('/lender/destroy/{id}',[
 'uses'=>'LenderController@destroy',
 'as'=>'lender.destroy'
 ]);
+Route::get('/lender/edit/{id}','LenderController@edit')->name('lender.edit');
+Route::post('/lender/update/{id}','LenderController@update')->name('lender.update');
+
 
 //Reports Routes
 Route::get('/borrower/report',[
@@ -301,7 +304,10 @@ Route::get('borrower_individual_report/pdf/{id}',[
 ]);
 
 //Settings Controller
-
+Route::get('/system_settings',[
+'uses'=>'SettingsController@system',
+'as'=>'system_settings'
+]);
 
 });
 //End of Authentication middleware
