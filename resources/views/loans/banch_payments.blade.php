@@ -30,11 +30,12 @@
                   <th>Select</th>
                 </tr>
                 <?php $id = 1?>
+                @if(isset($loans))
                 @foreach($loans as $loan)
-                <?php $borrower = App\Borrower::find($loan->borrower_id);?>
+               @if($loan->borrower)
                 <tr>
                   <td>{{$id++}}</td>
-                  <td>{{ucfirst($borrower->fname).' '.ucfirst($borrower->lname)}}</td>
+                  <td>{{ucfirst($loan->borrower->fname).' '.ucfirst($loan->borrower->lname)}}</td>
                   <td>{{$loan->loan_amount}}</td>
                   <td>{{$loan->monthly_payable_amount}}</td>
                   <div class="checkbox">
@@ -46,7 +47,16 @@
                   </div>
                   
                 </tr>
+                @endif
                 @endforeach
+                @else
+                
+                <tr>
+                  <td colspan="5">No Aproved Loans available</td>
+                  
+                </tr>
+                 
+                @endif
               </tbody></table>
             </div>
             <!-- /.box-body -->
@@ -97,8 +107,8 @@
                 <div class="form-group pull-right" style="margin-right:100px; margin-top: -45px">
                   <div class="checkbox">
                   <label class="label-control">Select All
-                  <input type="checkbox" name="select_all" id="pay_all">
-                  </label>
+                  <input type="checkbox" name="select_all" id="pay_all" style="margin-top: -16px">
+                   </label>
                 </div>
               </div> 
             </div>

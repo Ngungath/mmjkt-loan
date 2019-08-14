@@ -2,8 +2,8 @@
 @section('content')
 <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+       <a href="{{route('home')}}"> Dashboard </a>
+        <small> > Pending Loans</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> All Roles</a></li>
@@ -29,19 +29,19 @@
                 </tr>
                 <?php $id = 1?>
                 @foreach($loans as $loan)
-                <?php $borrower = App\Borrower::find($loan->borrower_id);?>
+                @if($loan->borrower)
                 <tr>
                   <td>{{$id++}}</td>
-                  <td>{{ucfirst($borrower->fname).' '.ucfirst($borrower->lname)}}</td>
+                  <td>{{ucfirst($loan->borrower->fname).' '.ucfirst($loan->borrower->lname)}}</td>
                   <td>{{$loan->loan_amount}}</td>
                   <td>{{$loan->loan_type}}</td>
                   @if($loan->loan_status == "Pending")
-                  <td><span class="badge bg-blue">{{$loan->loan_status}}</span></td>
+                  <td><span class="badge bg-orange">{{$loan->loan_status}}</span></td>
                   @elseif($loan->loan_status == "")
                   @elseif($loan->loan_status == "")
                   @endif
                   
-                  <td>
+                 <td>
                     <div class="btn-group">
                   <button type="button" class="btn btn-info">Action</button>
                   <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -49,15 +49,27 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
+                    @can('isAdmin')
+                    @if($loan->loan_status != "Approved")
                     <li><a href="{{route('loan.wiew_approve',['id'=>$loan->id])}}">Approve Loan</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    @endif
+                    @endcan
+                    <li><a href="{{route('loan_payment.single',['id'=>$loan->id])}}">Add Payment</a></li>
+                    @can('isAdmin')
+                    @if($loan->loan_status != "Approved")
+                    <li><a href="{{route('loan.edit',['id'=>$loan->id,'borrower_id'=>$loan->borrower->id])}}">Edit Loan</a></li>
+                    <li>
+                      <a style="color: red" href="{{route('loan.delete',['id'=>$loan->id])}}">Delete Loan</a>
+                    </li>
+                    @endif
+                    @endcan
                     <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="{{route('loan.show',['id'=>$loan->id])}}">Preview Loan</a></li>
                   </ul>
                 </div>
                   </td>
                 </tr>
+                @endif
                 @endforeach
               </tbody></table>
             </div>

@@ -8,6 +8,7 @@ use Session;
 use App\Loan;
 use Carbon\Carbon;
 use App\Payment;
+use DateTime;
 
 class BorrowersController extends Controller
 {
@@ -55,9 +56,12 @@ class BorrowersController extends Controller
 
         $borrower_photo_new = 'uploads/borrowers_photos/'.$borrower_photo_new;
      }
-     $newDob =date('Y-m-d',strtotime($request->dob));
-     $newDoe =date('Y-m-d',strtotime($request->doe)) ;
-     $newRod =date('Y-m-d',strtotime($request->rod)) ;
+
+   //dd(DateTime::createFromFormat('d-m-Y', $request->rod)->format('Y-m-d')); 
+
+     $newDob =DateTime::createFromFormat('d-m-Y', $request->dob)->format('Y-m-d');
+     $newDoe =DateTime::createFromFormat('d-m-Y', $request->doe)->format('Y-m-d');
+     $newRod =DateTime::createFromFormat('d-m-Y', $request->rod)->format('Y-m-d');
     // dd($newRod);
 
     $borrower->fname = $request->fname;

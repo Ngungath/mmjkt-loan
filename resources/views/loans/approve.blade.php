@@ -25,8 +25,10 @@
           </div>
         </div>
         <?php 
-          $max_deduction = round((1/3*$loan->current_net_salary));
+          $available_max_deduction = round((1/3*$borrower->monthly_net_salary));
           $monthly_repayment = round(get_monthly_repayment($loan->loan_amount, $lender->interest, $loan->repayment_period));
+          $max_deduction = $available_max_deduction - $total_monthly_deduction;
+
 
         ?>
       <div class="box-body no-padding">
@@ -34,9 +36,9 @@
                 <tbody>
                 <tr>
                 
-                  <td>Net Salary</td>
-                   <td>{{$loan->current_net_salary}}</td>
-                   <td>Maximum Deduction Amount per Month : {{$max_deduction}}</td>
+                  <td>Available amount for loan from salary</td>
+                   <td><span class="label label-success">{{number_format($available_max_deduction).' '.'/='}}</span></td>
+                   <td>Available Deduction Amount per Month : <span class="label label-success">{{number_format($max_deduction).' '.'/='}}</span></td>
                 </tr>
                 <tr>
                   
@@ -53,7 +55,7 @@
                 <tr>
                   <td></td>
                   <td>Monthly Loan Repayment</td>
-                  <td>Tsh : {{$monthly_repayment}}</td>
+                  <td>Tsh : <span class="label label-success">{{number_format($monthly_repayment).' '.'/='}}</span></td>
                 </tr>
               </tbody></table>
               <hr>
@@ -62,7 +64,7 @@
 
             ?>
               <div class="box-header with-border">
-              <h3 class="box-title"><b>Privious Loan Details</b></h3>
+              <h3 class="box-title"><b>Privious Loan Details from Same Lender</b></h3>
               </div>
               <div class="box-body no-padding">
               <table class="table table-striped">

@@ -38,12 +38,14 @@
 			</tr>
 			</thead>
 			<tbody>
+				<?php $i=1; ?>
 			@foreach($borrowers as $borrower)
                 <?php
                 $total_payment = get_borrowers_payments($borrower->borrower_id,$borrower->id,$borrower->lender_id);
+                
                 ?>
                 <tr>
-                  <td>1.</td>
+                  <td>{{$i++}}</td>
                   <td>{{$borrower->fname.' '.$borrower->lname}}</td>
                   <td>{{$unit_name}}</td>
                   <td>{{$lender_name}}</td>

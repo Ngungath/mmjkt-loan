@@ -10,8 +10,9 @@
         var loan_status = $("#loan_status").val();
        
         if (loan_status == "Approved") {
-          alert(loan_payment);
-          if (loan_payment <= max_deduction && diff_in_doe >= 3) {
+          var difference = max_deduction - loan_payment;
+        
+          if (0 >= difference && diff_in_doe >= 3 && diff_in_rod >= 3) {
               swal({
               title: 'Are you sure?',
               text: "Borrower didn't qualify for loan!",
@@ -88,6 +89,22 @@
       });
      
     
+
+  $("#loan_number").change(function(){
+  var loan_number = $('#loan_number').val();
+  
+  $.ajax({
+   type:'GET',
+   url:"{{route('get_loan_payable_amount',['loan_number'=>'loan_number'])}}",
+   dataType:'JSON',
+   success:function(data){
+   console.log(data);
+   }
+
+
+
+  });
+});
     
 
         
@@ -113,7 +130,23 @@
       if ($('.payment:checked').length == 0) {
        alert('select at least one item to make payment'); 
       }else{
-        $("#banch_payments_form").submit();
+       var month = $("#month").val();
+       var year = $("#year").val();
+        swal({
+              title: 'Are you sure?',
+              text: "You want to make payment for "+month+' , '+year,
+              type: 'warning',
+              showCancelButton: true,
+              cancelButtonColor: '#d33',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, Decline it anyway!'
+          }).then(function () {
+          
+             $("#banch_payments_form").submit();
+      
+        });
+
+     
       }
 
       
@@ -157,6 +190,8 @@
   
 
 	});
+
+
 //load_lender_table();
 function load_lender_table(){
 alert("Are you sure danny");

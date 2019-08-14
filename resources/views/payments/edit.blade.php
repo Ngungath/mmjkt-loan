@@ -55,7 +55,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                     <label class="control-label">Repayment Amount <span class="required2">*</span></label>
-                    <input type="text" name="payment_amount" id="payment_amount" class="form-control">
+                    <input type="text" value="{{$payment->payement_amount}}" name="payment_amount" id="payment_amount" class="form-control">
                     <span id="loan_number_error" class="text-danger"></span>
                     </div>
                   </div>
@@ -66,7 +66,7 @@
       
               <br />
         <div align="center">
-             <button type="submit" name="loan" id="loan" class="btn btn-success btn-lg">Add Payment</button>
+             <button type="submit" name="loan" id="loan" class="btn btn-success btn-lg">Update Payment</button>
         </div>
         <br />
 

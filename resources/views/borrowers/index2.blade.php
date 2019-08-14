@@ -2,11 +2,11 @@
 @section('content')
 <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+       <a href="{{route('home')}}">Dashboard</a> 
+        <small> ~~> New Borrower</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> All Units</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>New Borrower</a></li>
         <li class="active">Dashboard</li>
       </ol>
     </section>
@@ -58,7 +58,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" name="dob" id="datepicker">
+                  <input type="text" data-date-format="dd-mm-yyyy" class="form-control pull-right" name="dob" id="datepicker">
                 </div>
                 <!-- /.input group -->
               </div>
@@ -81,8 +81,9 @@
                 <div class="col col-md-12">
                   <div class="col-md-4">
                    <div class="form-group">
-               <label>Staff ID No. (Card Serial Number)</label>
-                   <input type="text" name="id_number" class="form-control">
+               <label>Staff ID No. (Card Serial Number)<span class="required2">*</span></label>
+                   <input type="text" name="id_number" id="id_number" class="form-control">
+                   <span id="id_number_error" class="text-danger"></span>
               </div>
                   </div>
                    <div class="col-md-4">
@@ -198,7 +199,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" name="doe" id="doe" placeholder="DOE">
+                  <input type="text" data-date-format="dd-mm-yyyy" class="form-control pull-right" name="doe" id="doe" placeholder="DOE">
                 </div>
                 <!-- /.input group -->
               </div>
@@ -211,7 +212,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text"  class="form-control pull-right" name="rod" id="rod" placeholder="ROD">
+                  <input type="text" data-date-format="dd-mm-yyyy"  class="form-control pull-right" name="rod" id="rod" placeholder="ROD">
                 </div>
                 <!-- /.input group -->
               </div>

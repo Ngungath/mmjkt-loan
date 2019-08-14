@@ -19,7 +19,7 @@ class Loan extends Model
 
     public function borrower(){
 
-    	return $this->belongsTo('App\Borrower');
+    	return $this->belongsTo('App\Borrower','borrower_id');
     }
 
     public function payments(){

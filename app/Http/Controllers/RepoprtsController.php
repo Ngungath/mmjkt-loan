@@ -151,5 +151,19 @@ class RepoprtsController extends Controller
 
        }
 
+     public function loan_colection_report(){
+     $lenders = Lender::all();
+     return view('reports.loan_colection_report')
+            ->with('lenders',$lenders);
+      
+    }
+
+    public function loan_report_find(Request $request){
+       $lenders = Lender::all();
+       return view('reports.loan_colection_report')
+            ->with('lenders',$lenders);
+       
+    }
+
 
 }

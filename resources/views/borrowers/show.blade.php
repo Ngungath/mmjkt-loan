@@ -3,12 +3,12 @@
 @section('content')
 <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+       <a href="{{route('home')}}">Dashboard</a>
+        <small> > Borrower Profile</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Borrower</a></li>
-        <li class="active">Dashboard</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Borrower Profile</a></li>
+        <li class="active"><a href="{{route('home')}}">Dashboard</a></li>
       </ol>
     </section>
 <section class="content">
@@ -20,11 +20,15 @@
           <!-- Profile Image -->
           <div class="box box-success">
             <div class="box-body box-profile">
+              @if(!isset($borrower->applicant_photo))
               <img class="profile-user-img img-responsive img-circle" src="{{asset($borrower->applicant_photo)}}" alt="User profile picture">
+              @else
+              <img class="profile-user-img img-responsive img-circle" src="{{asset('\img\passport-jkt.png')}}" alt="User profile picture">
+              @endif
 
               <h3 class="profile-username text-center">{{$borrower->fname.' '.$borrower->lname}}</h3>
 
-              <p class="text-muted text-center">{{$borrower->rank}}</p>
+              <p class="text-muted text-center"><b>Rank : </b>{{$borrower->rank}}</p>
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
@@ -66,20 +70,20 @@
                 
                   <td style="font-weight: bold;">Unit Name</td>
                   <td>
-                   <span class="badge bg-green">{{$borrower->unit->name}}</span>
+                   {{$borrower->unit->name}}
                   </td>
                 </tr>
                 <tr>
                   <td style="font-weight: bold;">Gender</td>
                   <td>
-                   <span class="badge bg-green">{{$borrower->gender}}</span>
+                   {{$borrower->gender}}
                   </td>
                 </tr>
                 <tr>
              
                   <td style="font-weight: bold;">Unit Number</td>
                   <td>
-                   <span class="badge bg-green">{{$borrower->unit->number}}</span>
+                   {{$borrower->unit->number}}
                   </td>
                   
                 </tr>
@@ -87,26 +91,26 @@
                  
                   <td style="font-weight: bold;">Unit Location</td>
                   <td>
-                    <span class="badge bg-green">{{$borrower->location}}</span>
+                    {{$borrower->location}}
                   </td>
                 </tr>
                 <tr>
                  
                   <td style="font-weight: bold;">Basic Salary</td>
                   <td>
-                  <span class="badge bg-green">{{$borrower->monthly_basic_salary}}</span>
+                  {{number_format($borrower->monthly_basic_salary)}}
                   </td>
                 </tr>
                  <tr>
                   <td style="font-weight: bold;">Net Salary</td>
                   <td>
-                  <span class="badge bg-green">{{$borrower->monthly_net_salary}}</span>
+                  {{number_format($borrower->monthly_net_salary)}}
                   </td>
                 </tr>
                 <tr>
                   <td style="font-weight: bold;">Contract Status</td>
                   <td>
-                  <span class="badge bg-green">{{$borrower->contract_status}}</span>
+                  {{$borrower->contract_status}}
                   </td>
                 </tr>
               </tbody></table>
@@ -160,6 +164,8 @@
                 <td><span class="label label-warning">{{$loan->loan_status}}</span></td>
                    @elseif($loan->loan_status == "Declined")
                 <td><span class="label label-danger">{{$loan->loan_status}}</span></td>
+                @elsif($loan->loan_amount - $total_payment =< 0)
+                  <td><span class="label label-info">Full Paid</span></td>
                   @endif
                           
                   <td>
@@ -170,11 +176,19 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
+                    @can('isAdmin')
+                    @if($loan->loan_status != "Approved")
                     <li><a href="{{route('loan.wiew_approve',['id'=>$loan->id])}}">Approve Loan</a></li>
+                    @endif
+                    @endcan
                     <li><a href="{{route('loan_payment.single',['id'=>$loan->id])}}">Add Payment</a></li>
-                    <li><a href="#">Edit Loan</a></li>
+                    @can('isAdmin')
+                    @if($loan->loan_status != "Approved")
+                    <li><a href="{{route('loan.edit',['id'=>$loan->id,'borrower_id'=>$borrower->id])}}">Edit Loan</a></li>
+                    @endif
+                    @endcan
                     <li class="divider"></li>
-                    <li><a href="#">Preview Loan</a></li>
+                    <li><a href="{{route('loan.show',['id'=>$loan->id])}}">Preview Loan</a></li>
                   </ul>
                 </div>
                   </td>
@@ -223,9 +237,12 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Preview Payments</a></li>
-                    <li><a href="#">Edit Payment</a></li>
-                    <li><a href="#">Delete Payment</a></li>
+                    <li><a href="{{route('payment.show',['id'=>$payment->id])}}">Preview Payments</a></li>
+                   
+                    <li><a href="{{route('payment.edit',['id'=>$payment->id,'borrower_id'=>$borrower->id])}}">Edit Payment</a></li>
+                     @can('isAdmin')
+                    <li><a style="color: red" href="{{route('payment.destroy',['id'=>$payment->id])}}">Delete Payment</a></li>
+                    @endcan
                   </ul>
                 </div>
                   </td>

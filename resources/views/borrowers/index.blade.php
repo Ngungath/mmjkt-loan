@@ -2,60 +2,51 @@
 @section('content')
 <section class="content-header">
       <h1>
-        Dashboard
-        <small>Control panel</small>
+        <a href="{{route('home')}}"> Dashboard</a>
+        <small> > Borrower List</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> All Units</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Borrower List</a></li>
         <li class="active">Dashboard</li>
       </ol>
     </section>
 
 <section class="content">
-	<div class="box box-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Borrowers</h3>
+          <div class="box box-success">
+            <div class="box-header">
+              <h3 class="box-title">Borrower List</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered text-center">
-                <tbody><tr>
-                  <th>ID</th>
-                  <th>Full Name</th>
-                  <th>Gender</th>
-                  <th>Unit</th>
-                  <th>Mobile</th>
-                  <th>Actions</th>
-                </tr>
-                <?php $i=1; ?>
-                @if(count($borrowers) > 0)
-                @foreach($borrowers as $borrower)
+              <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-12"><table id="borrower_list" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                <thead>
+                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 177px;">Full Name</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 125px;">Gender</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 206px;">Unit</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 153px;">ID Number</th><th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 212px;">Actions</th></tr>
+                </thead>
+                <tbody>
 
-                <tr>
-                  <td>{{$i++}}</td>
+                   @foreach($borrowers as $borrower)
+
+                <tr role="row" class="odd">
+              
                   <td>{{$borrower->fname.' '.$borrower->mname.' '.$borrower->lname }}</td>
                   <td>{{$borrower->gender}}</td>
                   <td>{{$borrower->unit->name}}</td>
-                  <td>{{$borrower->mob_number}}</td>
+                  <td>{{$borrower->id_no}}</td>
                   <td>
+                    @can('isAdmin')
                     <a href="{{route('borrowers.destroy',['id'=>$borrower->id])}}" class="badge bg-red">suspend</a>
+                    @endcan
                     <a href="{{route('borrower.edit',['id'=>$borrower->id])}}" class="badge bg-green">update</a>
                     <a href="{{route('borrower.show',['id'=>$borrower->id])}}" class="fa fa-eye">View details</a>
                   </td>
                 </tr>
                 @endforeach
-                @else
-                <tr>
-                  <td colspan="4"><p class="text-center"><b>No borrower Found</b></p></td>
-                </tr>
-                @endif
+
+              </tbody>
             
-              </tbody></table>
+              </table></div></div></div>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix text-center">
-             {{$borrowers->links()}}
-            </div>
           </div>
 
 </section>

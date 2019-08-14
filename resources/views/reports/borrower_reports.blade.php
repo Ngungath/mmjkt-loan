@@ -71,22 +71,19 @@
               <div class="row">
                 <div class="col col-md-12">
 
-                  <div class="box">
+          <div class="box box-success">
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered">
-                <tbody><tr>
-                  <th style="width: 10px">#</th>
-                  <th>Borrower Name</th>
-                  <th>Unit</th>
-                  <th>Lender</th>
-                  <th>Loan Amount</th>
-                  <th>Due Amount</th>
-                </tr>
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="table-borrower-report" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+                <thead>
+                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Borrower Name</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Unit</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Lender</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Loan Amount</th><th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Due Amount</th></tr>
+                </thead>
+                <tbody>
                 @if(isset($borrowers) && count($borrowers) > 0)
                   <?php
                   $unit_name = $unit_name;
-                  $lender_name = $lender_name
+                  $lender_name = $lender_name;
+                  $i=1;
                   ?>
                 @foreach($borrowers as $borrower)
                 <?php
@@ -96,7 +93,7 @@
               
                 ?>
                 <tr>
-                  <td>1.</td>
+                 
                   <td>{{$borrower->fname.' '.$borrower->lname}}</td>
                   <td>{{$unit_name}}</td>
                   <td>{{$lender_name}}</td>
@@ -109,19 +106,12 @@
                   <td colspan="5"><p class="text-center">No data available</p></td>
                 </tr>
                 @endif
-              </tbody></table>
+              </tbody>
+              </table></div></div></div>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">»</a></li>
-              </ul>
-            </div>
           </div>
+          <!-- /.box -->
                
                 </div>
               </div>

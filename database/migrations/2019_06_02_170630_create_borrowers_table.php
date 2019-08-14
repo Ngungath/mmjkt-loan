@@ -30,15 +30,13 @@ class CreateBorrowersTable extends Migration
             $table->string('salary_bank')->nullable();
             $table->string('bank_acc_number')->nullable();
             $table->string('bank_branch')->nullable();
-            $table->string('applicant_photo')->nullable();
+        $table->string('applicant_photo')->default('asset("img/passport-jkt.png")');
             $table->string('loan_type')->nullable();
             $table->double('monthly_basic_salary',20,2)->nullable();
             $table->double('monthly_net_salary',20,2)->nullable();
             $table->date('doe')->nullable();
             $table->date('rod')->nullable();
             $table->string('rank')->nullable();
-
-            
             $table->enum('borrower_status',['Active','Inactive'])->default('Active');
             $table->softDeletes();
             $table->timestamps();

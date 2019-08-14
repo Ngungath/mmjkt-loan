@@ -3,7 +3,7 @@
 
    $('#btn_personal_detail').click(function(){
         
-       //var loan_number_error ="";
+         var id_number_error ="";
         var fname_error ="";
         var lname_error ="";
       //first name validation
@@ -25,12 +25,24 @@
         	$('#lname').addClass('has-error');
 
         }else{
-           last_name="";
+           lname_error="";
         	$('#lname_error').text(lname_error);
         	$('#lname').removeClass('has-error');
 
         }
-        if (fname_error != '' || lname_error !='') {
+          //Id Number  validation
+        if ($.trim($('#id_number').val()).length == 0) {
+          id_number_error = "Id number is required";
+           $('#id_number_error').text(id_number_error);
+          $('#id_number').addClass('has-error');
+
+        }else{
+           id_number_error="";
+          $('#id_number_error').text(id_number_error);
+          $('#id_number').removeClass('has-error');
+
+        }
+        if (fname_error != '' || lname_error !='' || id_number_error !='') {
         	return false;
         }else{
         	//alert('Successfully');
@@ -122,9 +134,7 @@
 
 
  //Update Borrower information
- $('#btn_update_personal_detail').click(function(){
-  alert('update');
-        
+ $('#btn_update_personal_detail').click(function(){       
        //var loan_number_error ="";
         var fname_error ="";
         var lname_error ="";
@@ -152,7 +162,20 @@
           $('#lname').removeClass('has-error');
 
         }
-        if (fname_error != '' || lname_error !='') {
+
+          //Id Number  validation
+        if ($.trim($('#id_number').val()).length == 0) {
+          id_number_error = "Id number is required";
+           $('#id_number_error').text(id_number_error);
+          $('#id_number').addClass('has-error');
+
+        }else{
+           id_number_error="";
+          $('#id_number_error').text(id_number_error);
+          $('#id_number').removeClass('has-error');
+
+        }
+        if (fname_error != '' || lname_error !='' || id_number_error !='') {
           return false;
         }else{
           //alert('Successfully');

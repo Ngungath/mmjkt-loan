@@ -36,8 +36,10 @@
                   <td>{{$borrower->mob_number}}</td>
                   <td>{{$borrower->loan_number}}</td>
                   <td>
+                    @can('isAdmin')
                     <a href="{{route('borrowers.restore',['id'=>$borrower->id])}}" class="badge bg-green">Restore</a>
                     <a href="{{route('borrower.delete',['id'=>$borrower->id])}}" class="badge bg-red" id="delete_borrower" >Delete</a>
+                    @endcan
                   </td>
                 </tr>
                 @endforeach

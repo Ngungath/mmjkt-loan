@@ -34,7 +34,7 @@
   <a href="{{route('suspended.borrowers')}}"><i
  class="fa fa-circle-o"></i> Suspended Borrowers
      <span class="pull-right-container">
-      <span class="label label-danger pull-right">0</span>
+      <span class="label label-danger pull-right">{{App\Borrower::onlyTrashed()->count()}}</span>
      </span>
  </a>
 </li>
@@ -57,7 +57,8 @@
           <a href="{{route('pending.loans')}}"><i
               class="fa fa-circle-o"></i> Pending Approval
                   <span class="pull-right-container">
-                  <span class="label label-warning pull-right">{{App\Loan::where('loan_status','Pending')->count()}}</span>
+                  <span class="label label-warning pull-right">{{App\Loan::where('loan_status','Pending')
+                    ->count()}}</span>
                   </span>
                     </a>
                 </li>
@@ -71,8 +72,6 @@
               </li>
           <li><a href="{{route('lender')}}"><i
                   class="fa fa-bank"></i>Manage Lender</a></li>
-          <li><a href="#"><i
-                  class="fa fa-book"></i>Repayment Methods</a></li>
           <li><a href="{{route('loans.banch_payments')}}"><i
                   class="fa fa-book"></i>Banch Repayment</a></li>
           </ul>
@@ -105,7 +104,7 @@
                                 <li><a href="{{route('borrower.report')}}"><i
                                                 class="fa fa-circle-o"></i> Borrower Reports
                                     </a></li>
-                                <li><a href="#"><i
+                                <li><a href="{{route('loan_colection')}}"><i
                                                 class="fa fa-circle-o"></i> Loan Reports
                                     </a></li>
 
@@ -120,9 +119,9 @@
           </a>
           <ul class="treeview-menu">
             <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i>Email</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>SMS</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>SMS</a></li>
             @can('isAdmin')
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i>Manage SMS Gateways</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i>Manage SMS Gateways</a></li>
             @endCan
           </ul>
         </li>

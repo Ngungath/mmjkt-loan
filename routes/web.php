@@ -88,7 +88,7 @@ Route::post('/user/update/{id}',[
 Route::middleware(['auth'])->group(function(){
 
 //Admin Middleware group
-Route::middleware(['admin'])->group(function(){
+//Route::middleware(['admin'])->group(function(){
 
 // Borrowers conntroller
 Route::get('/borrower/index',[
@@ -145,7 +145,7 @@ Route::post('borrower/update/{id}',[
 
 ]);
 
-});
+//});
 
 //Units Controller
 Route::get('/units',[
@@ -247,6 +247,29 @@ Route::post('/banch_payments_store',[
 'as'=>'banch_payments_store'
 ]);
 
+Route::post('/get_loan_payable_amount/{loan_number}',[
+'uses'=>'LoansController@get_loan_payable_amount',
+'as'=>'get_loan_payable_amount'
+]);
+Route::get('loan/edit/{id}/{borrower_id}',[
+'uses'=>'LoansController@edit',
+'as'=>'loan.edit'
+]);
+Route::post('/loan/update/{id}',[
+'uses'=>'LoansController@update',
+'as'=>'loan.update'
+
+]);
+
+Route::get('loan/show/{id}',[
+'uses'=>'LoansController@show',
+'as'=>'loan.show'
+]);
+Route::get('/loan/delete/{id}',[
+'uses'=>'LoansController@destroy',
+'as'=>'loan.delete'
+]);
+
 //Repayments Routes
 Route::get('/payment/create/{id}',[
  'uses'=>'PaymentsController@create',
@@ -261,6 +284,19 @@ Route::post('/payment/store/',[
 Route::get('payment/single/{id}',[
   'uses'=>'PaymentsController@single_payment',
   'as'=>'loan_payment.single'
+]);
+
+Route::get('payment/show/{id}',[
+'uses'=>'PaymentsController@show',
+'as'=>'payment.show'
+]);
+Route::get('payment/edit/{id}/{borrower_id}',[
+'uses'=>'PaymentsController@edit',
+'as'=>'payment.edit'
+]);
+Route::get('payment/destroy/{id}',[
+'uses'=>'PaymentsController@destroy',
+'as'=>'payment.destroy'
 ]);
 
 //Lender Controller
@@ -297,9 +333,19 @@ Route::post('/borrower/report_pdf',[
 
 ]);
 
+Route::post('/loan/report',[
+ 'uses'=>'RepoprtsController@loan_report_find',
+ 'as'=>'loan_report.find'
+
+]);
 Route::get('borrower_individual_report/pdf/{id}',[
 'uses'=>'RepoprtsController@borrower_individual_report_pdf',
 'as'=>'borrower_individual_report.pdf'
+
+]);
+Route::get('/loan_colection',[
+ 'uses'=>'RepoprtsController@loan_colection_report',
+ 'as'=>'loan_colection'
 
 ]);
 
@@ -307,6 +353,11 @@ Route::get('borrower_individual_report/pdf/{id}',[
 Route::get('/system_settings',[
 'uses'=>'SettingsController@system',
 'as'=>'system_settings'
+]);
+
+Route::post('/system_setings/update',[
+'uses'=>'SettingsController@system_setings',
+'as'=>'system_setings.update'
 ]);
 
 });

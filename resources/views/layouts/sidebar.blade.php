@@ -6,8 +6,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{asset('img/jkt.jpg')}}" class="img-circle"
-                     alt="User Image"/>
+                <img class="profile-user-img img-responsive img-circle" src="{{asset('/img/passport-jkt.png')}}" alt="User profile picture">
             </div>
             <div class="pull-left info">
                 @if (Auth::guest())

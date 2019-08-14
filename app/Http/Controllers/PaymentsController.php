@@ -31,7 +31,7 @@ class PaymentsController extends Controller
         $loans = Loan::where('borrower_id',$borrower_id)
                        ->where('active',1)
                        ->get();
-
+        
         return view('payments.create')->with('borrower_id',$borrower_id)
                                        ->with('lenders',Lender::all())
                                        ->with('loans',$loans);
@@ -55,6 +55,7 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
+        $monthly_payment = Loan::where('loan_number',$request->loan_number)->first()->monthly_payable_amount;
         $payment = new Payment;
         // $loan_payment = $request->all();
 
@@ -108,7 +109,7 @@ class PaymentsController extends Controller
         $payment->loan_id = $loan->id;
         $payment->payment_year =  $date[0];
         $payment->payment_month =  $monthName;
-        $payment->payement_amount = $request->payment_amount;
+        $payment->payement_amount = $monthly_payment;
         $payment->save();
         // $payment = Payment::where('borrower_id',$request->borrower_id)
         // ->where('lender',$request->lender)
@@ -132,7 +133,8 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
-        //
+      $payment = Payment::find($id);
+      return view('payments.show')->with('payment',$payment);
     }
 
     /**
@@ -141,9 +143,13 @@ class PaymentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,$borrower_id)
     {
-        //
+        $payment =Payment::find($id);
+
+        return view('payments.edit')->with('payment',$payment)
+                                    ->with('borrower_id',$borrower_id)
+                                    ->with('loans',Loan::all());
     }
 
     /**
@@ -155,7 +161,29 @@ class PaymentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $payment = Payment::find($id);
+
+        //$loan_payment['payment_date'] = $new_pay_date ;
+        $lender = explode('-', $request->loan_number); 
+        $date = explode('-', $new_pay_date);
+
+        $lender_id =Lender::where('name',$lender[1])->first();
+        //dd($lender_id->id);
+        $monthNum  =  $date[1];
+        $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+        $monthName = $dateObj->format('F'); // March
+        
+        $payment->borrower_id = $request->borrower_id;
+        $payment->lender_id = $lender_id->id;
+        $payment->loan_number = $request->loan_number;
+        $payment->loan_id = $loan->id;
+        $payment->payment_year =  $date[0];
+        $payment->payment_month =  $monthName;
+        $payment->payement_amount = $monthly_payment;
+        $payment->update();
+        Session::flash('success','Payment successfully Updated');
+        return redirect()->route('borrower.show',['id'=>$request->borrower_id]);
+
     }
 
     /**
@@ -165,13 +193,11 @@ class PaymentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $payment = Payment::find($id);
+        $payment->delete();
+        Session::flash('success','Payment successfully deleted');
+        return redirect()->back();
     }
 
-    // public function get_borrowers_payments($borrower->borrower_id,$borrower->loan_id,$borrower->lender_id)
-    // {
-
-    // }
-    //body > div > header > div.topbar > div > div
 }

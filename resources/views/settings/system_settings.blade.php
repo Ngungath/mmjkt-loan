@@ -21,12 +21,24 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">General Settings</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
-              <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+              <li><a href="#tab_2" data-toggle="tab">User Roles</a></li>
+              <li><a href="#tab_3" data-toggle="tab">Loan Settings</a></li>
               <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
+                <form method="post" action="{{route('system_setings.update')}}" enctype="multipart/form-data">
+                  {{csrf_field()}}
+                <div class="form-group">
+                  <label class="label-control">Update Logo</label>
+                  <div class="form-control">
+                    <input type="file" name="logo" id="logo">
+                  </div>
+                </div>
+                 <div class="form-group">
+                 <button type="submit" class="btn btn-success">Update Settings</button>
+                </div>
+                 </form>
                 
               </div>
               <!-- /.tab-pane -->
